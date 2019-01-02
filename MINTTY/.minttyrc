@@ -1,0 +1,10 @@
+BoldAsFont=no
+BackgroundColour=62,62,62
+ThemeFile=dracula
+Transparency=low
+CursorType=line
+Font=Consolas
+FontHeight=12
+AllowBlinking=yes
+MiddleClickAction=void
+RightClickAction=paste

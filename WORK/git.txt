@@ -1,0 +1,216 @@
+ -----------------------------------------------------------------------
+| GIT workflow (simply)				|  fetch before you work    		|
+| 1.	Make a change				|  fetch before you push    		|
+| 2.	Add the change				|  fetch often              		|
+| 3.	Make a commit to repo		|  git pull = git getch + git merge |
+ -----------------------------------------------------------------------
+| https://help.github.com/												|
+ -----------------------------------------------------------------------
+
+git init							- initialize the git repository
+	e.g. git init; git add .; git commit -m "first commit"
+git add <file_name>					- add to staging
+git add .							- add all files to the staging
+------------
+git log 							- history of commits
+------------
+git commit -m "first commit"		- commit with comment
+git commit -am "first commit"		- add all and commit with comment
+git commit --amend -m <message>		- ammend message in the last commit
+------------
+git checkout <file_name>			- revert changes of file name
+git checkout -- index.html			- revert changes of file name in the same branch
+	good practice to use "--", otherwise, if we have a branch with <file_name> name, Git will switch to this branch
+git checkout <id>					- revert all changes to the state <id>
+	e.g. git checkout 9fd4be5db58c0cfae4ad214d2fb0ce9f1772d360
+git checkout <branch_name>			- switch to the branch
+git checkout <branch_name>			- go to the latest commit in the branch
+		-b <branch_name>			- create new branch and switch to it
+	e.g. git checkout -b 02_01 origin/02_01
+------------
+git fetch <remote repo> <commit>	- get remote repo with specific commit
+git checkout <commit>				- checkout the commit (from previous command)
+------------
+git status 							- get current status
+------------
+git branch							- get current branch name
+git branch <branch_name>			- create new branch, but not switch to it
+git branch alternate <id>
+		-m app01 app1				- rename branch from app01 to app1
+		-d <branch_name>			- delete the branch (safety)
+		-D <branch_name>			- delete the branch (force)
+		-a							- show all branches even they were not downloaded (only info)
+		-r							- show remote branches
+git branch --merged					- lists branches merged into HEAD (current branch)
+git branch --merged master			- lists branches merged into master
+------------
+git merge <branch_name>				- merge current branch with the mentioned
+------------
+git clone <url>						- clone git project from the <url> source
+git clone -b 00_start <link>		- clone certain branch
+	e.g. git clone -b 00_start https://github.com/planetoftheweb/responsivebootstrap.git
+------------
+git remote show origin				- get info about source URL etc.
+git remote -v						- get URL
+------------
+git config --global user.name "Ozik"				- global config, change name
+git config --global user.email "ozi@mail.com"		- global config, change email 
+git config user.name				- check config user name
+git config user.email				- check config user email
+git config credential.helper 'store'- save credentials to the file ~/.git-credentials (unsecure)	
+git config --global credential.helper 'cache --timeout=3600'	- remember credetials for 1h
+git config --global alias.st "status"			- setup alias for GIT
+git config --global alias.co "checkout"			- setup alias for GIT
+git config --global alias.ci "commit"			- setup alias for GIT
+git config --global alias.br branch				- setup alias for GIT
+git config --global alias.df diff				- setup alias for GIT
+git config --global alias.dfs "diff --staged"	- setup alias for GIT
+git config --global alias.logg "log --graph --decorate --oneline --abbrev-commit --all"	- setup alias for GIT
+
+
+-------------
+git diff							- show the changes in all files between working dir and staging
+git diff <file>						- show the changes in certain file
+git diff d9d8836					- show difference between HEAD and commit
+git diff 89a1a85..d9d8836			- difference between two commits
+git diff 89a1a85..d9d8836 <file>	- difference between two commits of file
+	--stat --summary c63bd28..HEAD	- usefull example of short info
+	--staged						- show the changes for statged files
+	--cached 						- the same as staged, depricated
+	--color-words contact.html		- shows changes not in lines but in values
+	-b c63bd28..HEAD				- the same as --ignore-space-change
+	-w c63bd28..HEAD				- the same as --ignore-all-space
+-------------
+git rm <file>						- delete file from index
+git rm --cached tempfile2.txt		- delete file from the Staged index
+-------------
+git mv <file> <file1>				- rename (move) file in index
+-------------
+git revert <HASH>					- this is new commit (revert changes), doesn't impact history
+-------------
+git reset HEAD <file>				- unstage file
+git reset							- we have A, B, C commits, do reset to the specified commit
+	--soft B						- moves HEAD to the B state but change nothing in Staging or Working
+	--mixed(default) B				- moved HEAD to the B state and change Staging to B but not Working
+	--hard							- moved HEAD, Staging and Working to the stage B
+git clean							- delete all untracked files
+-------------
+git ls-tree	HEAD					- show tree-ish of the files
+git ls-tree master					- show tree-ish of the files
+git ls-tree master^					- show tree-ish of the files previous commit
+	master^^ or master~2			- two commits before
+	in the output "blob"				- any file
+	in the output "tree"			- any dirrectory
+-------------
+git log 							- get all commits
+		--oneline					- show history in short format
+		--format=oneline			- show history in short format with full SHA
+		--oneline -3				- show last 3 commits 
+		--since="2016-05-20"		- all commits from mentioned time
+		--after="2016-05-20"		- all commits from mentioned time
+		--untill="2016-05-20"		- all commits before mentioned time
+		--author="Ozi"
+		--grep="Init"				- get all commits with "Init" in description
+		--oneline d9d8836..a5fc83e	- show all commits between two
+		d9d8836..a5fc83e index.html	- show all commits for certain file
+		--stat --summary
+		--graph						- show branches in graph
+git show <SHA of the commit>		- show full info about the commit with diff
+git show <tree-ish>					- show content of object
+git show HEAD						- show info about last commit
+git show HEAD^						- show info about previous commit
+git show HEAD^^						- show info about two commits ago
+-------------
+git merge seo_title					- merge seo_tile branch into current (master?)
+git merge --abort					- abort current merge which is in progress
+-------------
+git stash save "description"		- save changes temporary (save state without commit)
+git stash list						- show all items in the stash
+git stash show						- show short info about last stash
+git stash show stash@{0}			- show short info about certain stash
+git stash show -p stash@{0}			- show full info about certain stash
+git stash apply						- pull stash to the working dir
+git stash pop						- pull stash to the working dir and remove from stash
+git stash drop stash@{0}			- delete item from the stash
+git stash clear						- !delete all items from stash
+-------------
+git remote							- shows all remote repositories
+git remote -v						- with more information
+git remote add <alias> <url>		- set alias and link
+	saved data is in .git/config
+git remote rm origin				- removes information about remote
+-------------
+git push -u <alias> <branch>		- push repository branch to the <alias>
+	e.g. -u origin master
+		 -u							- for trecking branch
+git push origin :non_tracking		- ":" is mean to delete remote branch
+git push origin non_tracking:non_tracking	- push branch to remote branch
+git push origin --delete non_tracking		- delete remote branch
+-------------
+git fetch https://code.ipreo.com/Ipreo/BuysideAutomation.git debfa9f72dc0f15a9eb5c52fbffa8a82c36700fa
+git checkout debfa9f72dc0f15a9eb5c52fbffa8a82c36700fa
+----------------------------------------------------------------------------
+
+https://code.ipreo.com/Ipreo/BuysideAutomation.git
+e0e9459c716cf3958d2ed85b8ccfb941cbd1a8e5
+
+rm -rf .git							- delete all information about versions
+https://github.com/github/gitignore
+
+My log
+=======================================================================================
+git checkout -b py3_01				- create branch py3_01
+git push origin py3_01				- push to GitHub
+git add `git status | grep modified | sed 's/\(.*modified:\s*\)//'`
+	add only modified files to the staging
+
+Aliases
+=======================================================================================
+
+Old:
+PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]\w\[\033[36m\]`__git_ps1`\[\033[0m\]\n$'
+
+New:
+export PS1=':> \[\033]0;$PWD `__git_ps1`\007\]\[\033[33m\]\w\[\033[36m\]`__git_ps1`\[\033[0m\]\n\033[38;5;10m\]$\033[0m\] '
+			
+			BASH hotkeys
+MOVE --------------------------------------------
+Alt  + B  – Go left one word
+Ctrl + B  – Go left one char
+Alt  + F  – Go right one word 
+Ctrl + F  – Go right one char
+Ctrl + A  – Go to start of the command line
+Ctrl + E  – Go to   end of the command line
+Ctrl + XX – Go to start and back of command line
+Alt  + T  – swap current word with previous
+Ctrl + T  – swap character with the previous one
+Ctrl + _  - undo last key press
+EDIT --------------------------------------------
+Ctrl + W  – Del to start of word
+Alt  + D  – Del to   end of word
+Ctrl + D  – Del character under 
+Ctrl + U  – Del to start of the command line
+Ctrl + K  – Del to   end of the command line
+Ctrl + H  – Del character before
+Ctrl + y  – paste that was cut by deletion
+HISTORY -----------------------------------------
+Ctrl + P  - Go to the previous command
+Ctrl + N  - Go to the next     command
+Alt  + R  - Revert changes to a command 
+Ctrl + R  - Recall the last command for char
+Ctrl + O  - Run a command you found with Ctrl + R
+Ctrl + G  - Leave history searching mode
+MODIFY ------------------------------------------
+Alt  + C  – capitalize to end of word
+Alt  + U  – uppercase to end of word
+Alt  + L  – lowercase to end of word
+
+GIT ALIAS ---------------------------------------
+alias.st "status"			
+alias.co "checkout"			
+alias.ci "commit"			
+alias.br branch				
+alias.df diff				
+alias.dfs "diff --staged"	
+alias.logg "log --graph --decorate --oneline ...
+-------------------------------------------------

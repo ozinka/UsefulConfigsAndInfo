@@ -1,0 +1,995 @@
+is used in Linux to run scripts from just command line
+#!/usr/bin/env python3
+
+--- ✄ -------------------------
+7z 7zip python libarchive tar zip gz bzip2:
+pip install libarchive
+
+--- ✄ -------------------------
+Multiline string: 
+--- ✄ -------------------------
+x = '''
+
+text done GitHub  
+
+'''
+--- ✄ -------------------------
+Multiline comments (tripple doublequotes):
+"""
+any comments here
+"""
+--- ✄ -------------------------
+float problem; Don't use fload for money - use Decimal 
+--- ✄ -------------------------
+x = 0.1+0.1+0.1-0.3 #x:  5.551115123125783e-17
+--- ✄ -------------------------
+x = None, 0, '' == False
+if x:
+--- ✄ -------------------------
+check type:
+if isinstance(x, tuple):
+--- ✄ -------------------------
+Ternary conditional operator, conditional assignment:
+hungry = False
+x = 'Feed the bear now!' if hungry else 'Do not feed the bear.'
+--
+(if_test_is_false, if_test_is_true)[test]
+Example:
+fat = True
+fitness = ("skinny", "fat")[fat]
+print("Ali is ", fitness)
+# Output: Ali is fat
+--- ✄ -------------------------
+// - Ingeger Division
+% Remainder (Modulo)
+** Exponent
+--- ✄ -------------------------
+Bitwise Operators:
+& And
+| or
+^ Xor
+<< Shift left
+>> Shift right
+--- ✄ -------------------------
+Bin, oct, hex, dec operations:
+x = 0x0a
+y = 0x02
+z = x + y
+t = 0b00011
+s = x << 2 # 00010 -> 01000
+
+print(f'(hex) x is {x:02x}, y is {y:02x}, z is {z:02x}')
+print(f'(bin) x is {x:08b}, y is {y:08b}, z is {z:08b}')
+print(f'(dec) x is {x:05}, y is {y:05}, z is {z:05}')
+0x12 		- hex
+0b1110011 	- binary
+0o12		- oct
+print("The decimal value of",dec,"is:")
+print(bin(dec),"in binary.")
+print(oct(dec),"in octal.")
+print(hex(dec),"in hexadecimal.")
+--- ✄ -------------------------
+Boolean Operators
+and 	- And
+or 		- Or
+not 	- Not 
+in 		- Value in set
+not in 	- Value not in set
+is 		- Same object identity
+is not 	- Not same object identity
+--- ✄ -------------------------
+Loops:
+while
+for
+Controlling loops:
+break
+continue
+--- ✄ -------------------------
+functions:
+def kitten(a, b = 0)
+!Default values should be defined after undefault
+--- ✄ -------------------------
+Argument lists:
+def kitten(*args):
+in this case args is a tuple
+eg.
+    x = (3,45, ' asdf ')
+    kitten(*x)
+or
+	kitten(3,45, ' asdf ')
+--- ✄ -------------------------
+Keyword Argument lists:
+kitten(Buffy = 'meow', Zilla = 'grr', Angel = 'rawr')
+def kitten(**args):
+	if len(args):
+		for k in args:
+			print('Kitten {} says {}'.format(k, args[k]'))
+
+def main():
+    x = dict(Buffy='meow', Zilla='grr', Angel='rawr')
+    kitten(**x)
+--- ✄ -------------------------
+def inclusive_range(*args):
+    numargs = len(args)
+    start = 0
+    step = 1
+
+    if numargs < 1:
+        raise TypeError(f'expected at least 1 argument, got {numargs}')
+    elif numargs == 1:
+        stop = args[0]
+    elif numargs == 2:
+        (start, stop) = args
+    elif numargs == 3:
+        (start, stop, step) = args
+    else:
+        raise TypeError(f'Expected at most 3 arguments, got {numargs}')
+
+    i = start
+    while i <= stop:
+        yield i
+        i += step
+--- ✄ -------------------------
+Decorators
+import time
+
+
+def timer(f):
+    def tmp(*args, **kwargs):
+        t = time.time()
+        res = f(*args, **kwargs)
+        print("Function run time is: %f" % (time.time() - t))
+        return res
+    return tmp
+@timer
+def func(x, y):
+    print(x ** y)
+func(5, 500000)
+--- ✄ -------------------------
+# def tmp(*args, **kwargs) - arguments are used to include all possible variants of arguments
+--- ✄ -------------------------
+factorial
+def fact(x):
+    return x * fact(x - 1) if x > 0 else 1
+--- ✄ -------------------------
+get len of int
+1. return len(str(x))
+2. return int(math.log10(x)) + 1
+--- ✄ -------------------------
+SETs (is not tuple) - all unique! items, not sorted, is created by function set() or curly braces
+a = set("321456")
+b = set("567890")
+c = {8,a,t}
+print(sorted(a))
+    {123456}
+print(sorted(a - b)) - all in a but not in b
+    {1234}
+print(sorted(a | b)) - all in both a and b
+    {0123456789}
+print(sorted(a ^ b)) - a or b but not both
+    {01234789}
+print(sorted(a ^ b)) - member in both
+    {56}
+--- ✄ -------------------------
+#List comprehension, multiply every value in list by 2
+seq = range(11)
+seq2 = [x*2 for x in seq]
+seq2 = [x for x in seq if x % 3 != 0]
+seq2 = [(x, x ** 2) for x in seq]
+seq2 = {x: x ** 2 for x in seq} - create a dict from list
+--- ✄ -------------------------
+Class
+class Animal:
+    def __init__(self, **kwargs): #constructor
+        self._type = kwargs['type'] if 'type' in kwargs else 'kitten'
+        self._name = kwargs['name'] if 'name' in kwargs else 'fluffy'
+        self._sound = kwargs['sound'] if 'sound' in kwargs else 'rawr'
+    def type(self):
+        return self._type
+    def name(self):
+        return self._name
+    def sound(self):
+        return self._sound
+def print_animal(o):
+    if not isinstance(o, Animal):
+        raise TypeError('print_animal(): required an Animal')
+    print('The {} is named "{}" and says "{}".'.format(o._type, o.name(), o.sound()))
+def main():
+    a0 = Animal(type='kitten', name='fluffy', sound='rwar')
+    a1 = Animal(type='duck', name='Donald', sound='quack')
+    print_animal(a0)
+    print_animal(a1)
+    print_animal(Animal())
+if __name__ == '__main__':
+    main()  
+--- ✄ -------------------------
+class Animal:
+    def __init__(self, **kwargs):
+        self._type = kwargs['type'] if 'type' in kwargs else 'kitten'
+        self._name = kwargs['name'] if 'name' in kwargs else 'fluffy'
+        self._sound = kwargs['sound'] if 'sound' in kwargs else 'rawr'
+    def type(self, t=None): # setter and getter in one
+        if t: self._type = t
+        return self._type
+    def name(self, n=None):
+        if n: self._name = n
+        return self._name
+    def sound(self, s=None):
+        if s: self._sound = s
+        return self._sound
+    def __str__(self): #special methon to provide string representation of the object 
+        return f'The {self.type()} is named "{self.name()}" and says "{self.sound()}"."' #"
+def print_animal(o):
+    if not isinstance(o, Animal):
+        raise TypeError('print_animal(): required an Animal')
+    print('The {} is named "{}" and says "{}".'.format(o._type, o.name(), o.sound()))
+def main():
+    a0 = Animal(type='kitten', name='fluffy', sound='rwar')
+    a1 = Animal(type='duck', name='Donald', sound='quack')
+    a0.sound('bark')
+    print_animal(a0)
+    print_animal(a1)
+    print_animal(Animal())  
+--- ✄ -------------------------
+Class variable:
+class Animal:
+    x = [1, 2, 3] #class variable, can be chaned by any object of this class and is shared among all objects
+...
+a1.x[0] = 7
+    Animal.x[0]=12
+    print(a0.x)
+--- ✄ -------------------------
+private incapsulation, Python doesn't have private
+but has convention that if method or variable has "_" in the name - don't touch.
+--- ✄ -------------------------
+Class inheritance
+# Supper always calls the parrent class
+class Animal:
+    def __init__(self, **kwargs):
+        if 'type' in kwargs: self._type = kwargs['type']
+        if 'name' in kwargs: self._name = kwargs['name']
+        if 'sound' in kwargs: self._sound = kwargs['sound']
+    def type(self, t=None):
+        if t: self._type = t
+        try:
+            return self._type
+        except AttributeError:
+            return None
+    def name(self, n=None):
+        if n: self._name = n
+        try:
+            return self._name
+        except AttributeError:
+            return None
+    def sound(self, s=None):
+        if s: self._sound = s
+        try:
+            return self._sound
+        except AttributeError:
+            return None
+    def __str__(self):
+        return f'The {self.type()} is named "{self.name()}" and says "{self.sound()}"."' #"
+class Duck(Animal):
+    def __init__(self, **kwargs):
+        self._type = 'duck'
+        if 'type' in kwargs: del kwargs['type']
+        super().__init__(**kwargs)
+class Kitten(Animal):
+    def __init__(self, **kwargs):
+        self._type = 'kitten'
+        if 'type' in kwargs: del kwargs['type']
+        super().__init__(**kwargs)
+def main():
+    a0 = Kitten(name='fluffy', sound='rwar')
+    a1 = Duck(name='Donald', sound='quack')
+    print(a0)
+    print(a1)
+--- ✄ -------------------------
+Revert string:
+class revStr(str):
+    def __str__(self):
+        return self[::-1]
+def main():
+    hello = revStr('Hello, World.')
+    print(hello)
+    print(type(hello))
+--- ✄ -------------------------
+Iterator objects:
+Inclusive range:
+class inclusive_range:
+    def __init__(self, *args):
+        numargs = len(args)
+        self._start = 0
+        self._step = 1
+
+        if numargs < 1:
+            raise TypeError(f'expected at least 1 argument, got {numargs}')
+        elif numargs == 1:
+            self._stop = args[0]
+        elif numargs == 2:
+            (self._start, self._stop) = args
+        elif numargs == 3:
+            (self._start, self._stop, self._step) = args
+        else:
+            raise TypeError(f'expected at most 3 arguments, got {numargs}')
+
+        self._next = self._start
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self._next > self._stop:
+            raise StopIteration
+        else:
+            _r = self._next
+            self._next += self._step
+            return _r
+
+def main():
+    for n in inclusive_range(25):
+        print(n, end=' ')
+    print()
+--- ✄ -------------------------
+Exceptions
+try:
+    x = int('asdf')
+except ValueError:
+    print('I caught a ValueError')   
+--- ✄ -------------------------
+try:
+    x = 5/0
+except ValueError:
+    print('I caught a ValueError')
+except ZeroDivisionError:
+    print('Don\'t divide by zero') 
+--- ✄ -------------------------
+def main():
+    try:
+        x = 5 / 0
+    except ValueError:
+        print('I caught a ValueError')
+    # except ZeroDivisionError:
+    #     print('Don\'t divide by zero')
+    except:
+        print('unknown error')
+    else:
+        print('good job!')
+        print(x)        
+--- ✄ -------------------------
+import sys
+def main():
+    try:
+        x = 5 / 0
+    except ValueError:
+        print('I caught a ValueError')
+    # except ZeroDivisionError:
+    #     print('Don\'t divide by zero') \'
+    except:
+        print(f'unknown error: {sys.exc_info()[1]}')
+    else:
+        print('good job!')
+        print(x)
+--- ✄ -------------------------
+String
+print('Hello, World. {}'.format(42*7))
+print("""
+        Hello,
+        world
+        {}
+        {}
+        {}
+""".format(4, 12, "asdf"))
+--- ✄ -------------------------'
+String concatenation:
+'asdf ' + ' asdf'
+' asdf asdf'  'adsf asd f'
+--- ✄ -------------------------
+formatting string:
+x = 42
+print('the number is {}'.format(x))
+--
+x = 42
+y = 55
+print('the number is {xx}/{bb}'.format(bb=x, xx=y))
+--
+print('first value "{1}", second value "{0}"'.format(12, 75))
+--
+Formated instruction proceeded by ":"
+x = 42
+y = 73
+print('the number is {:5} {}'.format(x, y))
+5 means number of reserved positions
+--
+print('the number is {0:5} {1:+05}'.format(x, y))
+0 - first parameter
+1 - second parameter
+--
+x = 42 * 747
+print('the number is {:,}'.format(x))
+, - thousand separator
+print('the number is {:,}'.format(x).replace(',','.'))
+--
+x = 42 * 747 * 1000
+print('the number is {:.3F}'.format(x))
+#3 decimal places
+print('the number is {:,.3F}'.format(x))
+--
+print('the number is {:b}'.format(x))
+b - binary formate
+f - decimal
+o - octal
+x - hexadecimal
+--
+x = 42 * 747 * 1001
+print(f'the number is {x:.3f}')
+f - shortcut for format() method
+--- ✄ -------------------------
+Split and join:
+s = 'This is a long string with a bunch of words in it.'
+print(s.split(' '))
+--
+s = 'This is a long string with a bunch of words in it.'
+l = s.split()
+s2 =':'.join(l)
+print(s2)
+--- ✄ -------------------------
+def main():
+    f = open('test.log')
+    for line in f:
+        print(line.rstrip())
+# by default open() only read the file
+open('test.log') = open('test.log', 'r')
+--
+f = open('test.log', 'w')
+w - if file doesn't exit it will be created
+a - append to the end of file
+r+ - read and write
+r+b - binary mode
+r+t - text mode
+--- ✄ -------------------------
+strip() - removes spaces (by default) from START and END of string.
+rstrip()- removes spaces from END
+lstrip('t')- removes chars 't' from START
+str.rstrip([chars]) - removes all chars from END
+--- ✄ -------------------------
+Line Ending
+x = 'String\n'
+--- ✄ -------------------------
+check Python version:
+print(sys.version_info < (3, 3))
+--- ✄ -------------------------
+tuples comparison
+(1,2) < (1,3) = True
+check first unequal element
+--- ✄ -------------------------
+print('.', end='', flush=True)
+flush means - refresh stdout
+--
+print(1,2,3, sep='!')
+# 1!2!3
+--
+print(1,2,3, sep='!', end='->')
+# 1!2!3!->
+--- ✄ -------------------------
+Copy text file:
+def main():
+    infile = open('test.log', 'rt')
+    outfile = open('test-copy.log', 'wt')
+    for line in infile:
+        print(line.rstrip(), file=outfile)
+        print('.', end='', flush=True)
+    outfile.close()
+    print('\ndone.')
+--
+print(line.rstrip(), file=output)    
+    is the same as 
+outfile.writelines(line)
+--- ✄ -------------------------
+Copy binary file:
+def main():
+    infile = open('my_photo.jpg', 'rb')
+    outfile = open('my_photo-copy.jpg', 'wb')
+    while True:
+        buf = infile.read(10240) # 10k bytes
+        if buf:
+            outfile.write(buf)
+            print('.', end='', flush=True)
+        else: break
+    outfile.close()
+    print('\ndone.')
+--- ✄ -------------------------
+Numeric functions:
+x = '47'
+y = int(x)
+
+print(f'x is {type(x)}')
+print(f'x is {x}')
+print(f'y is {type(y)}')
+print(f'y is {y}')
+--
+y = divmod(x, 3)
+y is (15, 2)
+--
+y = 47 + 73j # the same as y = complex(47, 73)
+y is <class 'complex'>
+y is (47+73j)
+--- ✄ -------------------------
+class bunny:
+    def __init__(self, n):
+        self._n = n
+    def __repr__(self):
+        return f'the number of bunnies is {self._n}'
+
+s = 'Hello, World.'
+x = bunny(47)
+print(repr(x))
+--- ✄ -------------------------
+class bunny:
+    def __init__(self, n):
+        self._n = n
+    def __repr__(self):
+        return f'repr: the number of bunnies is {self._n}'
+    def __str__(self):
+        return f'str: the number of bunnies is {self._n}'
+x = bunny(47)
+print(repr(x))
+--- ✄ -------------------------
+👍🤘
+print(chr(129304)) - 🤘
+print(ord('🤘')) - 129304
+--- ✄ -------------------------
+x = (1, 2, 3, 4, 5)
+
+y = x
+y = list(reversed(x))
+print(x)
+print(y)
+result:
+(1, 2, 3, 4, 5)
+[5, 4, 3, 2, 1]
+--
+y = x
+y = sum(x)
+y = sum(x, 12) # sum + 12
+--
+y = max(x)
+--
+y = any(x) # checks if any not null, 0
+y = all(x) # check if all are true
+--
+x = (1, 2, 3, 4, 5)
+y = (6, 7, 8, 9, 10)
+
+z = zip(x, y) # is iterator
+
+for a,b in z: print(f'{a} - {b}')
+--
+x = ('cat', 'dog', 'rabbit', 'velociraptor')
+for i,v in enumerate(x): print(f'{i}: {v}')
+returns:
+0: cat
+1: dog
+2: rabbit
+3: velociraptor
+--
+lst =['Sun', 'Mun', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+print(enumerate(lst))
+for i,m in enumerate(lst, start=1): print(i, m)
+returns:
+1 Sun
+2 Mun
+3 Tue
+4 Wed
+5 Thu
+6 Fri
+7 Sat
+--- ✄ -------------------------
+Object and classes functions
+y = isinstance(x, int) # True
+y = id(x) # uniques id of object x
+--- ✄ -------------------------
+standard modules
+def main():
+    v = sys.version_info
+    print('Python version {}.{}.{}'.format(*v))
+-- 
+v = sys.platform # win32, darwin   
+v = os.name #nt, posix
+v = os.getenv('PATH')
+v = os.getcwd() # get current dirrectory
+v = os.urandom(25).hex() # 25 bytes
+--
+x = list(range(25))
+print(x)
+random.shuffle(x)
+print(x)
+--- ✄ -------------------------
+datetime
+now = datetime.datetime.now()
+print(now)
+print(now.year, now.month, now.day, now.hour, now.minute)
+--- ✄ -------------------------
+7z
+rc = subprocess.call(['7z', 'a', '-pP4$$W0rd', '-y', 'myarchive.zip'] + 
+                     ['first_file.txt', 'second.file'])
+--- ✄ -------------------------
+knx:
+  expose:
+    - type: 'temperature'
+      entity_id: 'sensor.owm_temperature'
+      address: '0/0/2'
+    - type: 'time'
+      address: '0/0/1'
+    - type: 'datetime'
+      address: '0/0/23'
+
+Domain: knx
+Service: send
+Service Data: {"address": "1/0/15", "payload": 0}
+--
+cfg_ = {'knx': {'expose': [{'type': 'temperature', 'entity_id': 'sensor.owm_temperature', 'address': '0/0/2'},
+                           {'type': 'time', 'address': '0/0/1'},
+                           {'type': 'datetime', 'address': '0/0/23'}]},
+        'Domain': 'knx',
+        'Service': 'send',
+        'Service Data': {'address': '1/0/15', 'payload': 0}}
+--- ✄ -------------------------
+zip files: https://code.tutsplus.com/ru/tutorials/compressing-and-extracting-files-in-python--cms-26816
+--- ✄ -------------------------
+Log parser task:
+# my 1
+users = set()
+for line in open('WinSyslog-2018-10-01.log'):
+    if 'Username =' in line:
+        pos1 = line.find('Username =')
+        users.add(line[pos1 + 11:line.find(',', pos1 + 11)])
+        users = {}
+for usr in sorted(users): print(usr)
+--
+# my
+users = {line[line.find('Username') + 11:line.find(',', line.find('Username') + 11)] for line in open('WinSyslog-2018-10-01.log') if 'Username =' in line}
+for usr in sorted(users): print(usr)
+--
+# Sasha
+import re
+user = re.compile("^.*?Username\s*?=\s*?([\w/]+).*$")
+with open('WinSyslog-2018-10-01.log') as f:
+    [print(name) for name in sorted({user.match(i).group(1) for i in f if user.match(i)})]
+--- ✄ -------------------------
+Templates:
+from string import Template
+templ = Template("You're watching ${title} by ${author}")
+str2 = templ.substitute(title="Advanced Python", author="Joe Marini")
+print(str2)
+--
+data = {"author": "Joe Marini",
+        "title": "Advanced Python"}
+
+str3 = templ.substitute(data)
+print(str3)
+--- ✄ -------------------------
+list:
+list1 = [1, 2, 3, -1, 5, 6, 'test']
+print(any(list1))
+print(all(list1))
+print(min(list1))
+print(max(list1))
+print(sum(list1))
+--- ✄ -------------------------
+filter functions:
+As the name suggests, filter creates a list of elements for which a function returns true. Here is a short and concise example:
+--
+def filterFunc(x):
+    if x % 2 == 0:
+        return False
+    return True
+nums = (1, 8, 4, 5, 13, 26, 381, 410, 58, 47)
+chars = 'abcDeFGHiJklmnoP'
+grades = (81, 89, 94, 78, 61, 66, 99, 74)
+odds = list(filter(filterFunc, nums))
+print(odds)
+[1, 5, 13, 381, 47]
+--
+def filterFunc2(x=str):
+    if x.isupper():
+        return False
+    return True
+chars = 'abcDeFGHiJklmnoP'
+lowers = list(filter(filterFunc2, chars))
+print(lowers)
+['a', 'b', 'c', 'e', 'i', 'k', 'l', 'm', 'n', 'o']
+--- ✄ -------------------------
+Map function
+Map applies a function to all the items in an input_list
+list(map(function_to_apply, list_of_inputs))
+--- ✄ -------------------------
+Documentation:
+print(map.__doc__)
+--
+import collections
+print(collections.__doc__)
+--
+def filterFunc(arg1, arg2=None):
+    """
+    myFunction(arg1, arg2=None) --> Doesn't really do anything just prints.
+
+    Parameters:
+    :param arg1: the first argument. Whatever you feel like passing.
+    :param arg2: second argument. Defaults to None.
+    :return:
+    """
+    print(arg1, arg2 )
+print(filterFunc.__doc__)    
+--- ✄ -------------------------
+def filterFunc(*numbers):
+    return sum(i for i in numbers)
+<=>
+def filterFunc(*numbers):
+    return sum(numbers)
+--- ✄ -------------------------
+lambda Functions
+lambda (parameters): (expression)
+--
+def CelsisusToFahrenheigt(temp):
+    return (temp * 9 / 5) + 32
+def FahrenheitToCelsisus(temp):
+    return (temp - 32) * 5 / 9
+def main():
+    ctemps = [0, 12, 34, 100]
+    ftemps = [32, 65, 100, 212]
+
+    print(list(map(FahrenheitToCelsisus, ftemps)))
+    print(list(map(CelsisusToFahrenheigt, ctemps)))
+    print(list(map(lambda t: (t - 32) * 5 / 9, ftemps)))
+    print(list(map(lambda t: t * 9 / 5 + 32, ctemps)))
+--- ✄ -------------------------
+collections
+import collections
+namedtuple      - Tuple with named fields
+OrderedDickt, defaultdict - Dictionaries with specal properties
+Counter         - Counts distinct values
+deque           - Double-ended list object
+--- ✄ -------------------------
+import yaml
+
+cfg = yaml.load(open('test.yaml', 'rt'))
+
+print(cfg)
+--- ✄ -------------------------
+named Tuple
+--
+import collections
+def main():
+    Point = collections.namedtuple("Point", "x y")
+    p1 = Point(10, 20)
+    p2 = Point(30, 40)
+    p1 = p1._replace(x=100)
+    print(p1, p2)
+    print(p1.x, p2.y)
+--- ✄ -------------------------
+defaultdict
+--
+def main():
+    fruits = ['apple', 'pear', 'orange', 'banana',
+              'apple', 'grape', 'banana', 'banana']
+    fruitCounter = {}
+    for fruit in fruits:
+        if fruit in fruitCounter.keys():
+            fruitCounter[fruit] += 1
+        else: fruitCounter[fruit] = 1
+    for (k, v) in fruitCounter.items():
+        print(k + ': ' + str(v))
+<=>
+from collections import defaultdict
+def main():
+    fruits = ['apple', 'pear', 'orange', 'banana',
+              'apple', 'grape', 'banana', 'banana']
+    fruitCounter = defaultdict(int) # > fruitCounter = defaultdict(lambda: 100)
+    for fruit in fruits:
+        fruitCounter[fruit] += 1
+    for (k, v) in fruitCounter.items():
+        print(k + ': ' + str(v))
+--- ✄ -------------------------
+Counter (not all worked as per video)
+--
+from collections import Counter
+def main():
+    class1 = ["Bob", 'Becky', 'Chad', 'Darcy', 'Frank', 'Hannah',
+              'Kevin', 'James', 'James', 'Melanie', 'Penny', 'Steve']
+    class2 = ['Bill', 'Barry', 'Cindy', 'Debbie', 'Frank',
+              'Gabby', 'Kelly', 'James', 'Joe', 'Sam', 'Tara', 'Ziggy']
+    c1 = Counter(class1)
+    c2 = Counter(class2)
+    # c1.update(class2)
+    c1.subtract(class2)
+    print(c1['James'])
+    print(c1.most_common(2))
+    print(sum(c1.values()), ' students in class 1')
+    print(c1.values())
+--- ✄ -------------------------
+OrdereDict
+--
+Sorted List:
+sportTeams = [('Royals', (18,12)), ('Rockets', (24,6)),
+              ('Cardinals', (20,10)), ('Dragons', (22,8)),
+              ('Kings', (15,15)), ('Chargers', (20,10)),
+              ('Jets', (16,14)), ('Warriors', (25, 5))]
+sortedTeams = sorted(sportTeams, key=lambda t: t[1][0], reverse=True)
+--
+a = {"a":1, "b":2,"c":3}
+b = {"b":2,"a":1, "c":3}
+print("Equaligy test:", a == b)
+# returns True
+a = OrderedDict({"a":1, "b":2,"c":3})
+b = OrderedDict({"b":2,"a":1, "c":3})
+print("Equaligy test:", a == b)
+# returns False
+--- ✄ -------------------------
+deque - list-like container with fast appends and pops on either end
+d = collections.deque(string.ascii_lowercase)
+print("Item count:", str(len(d)))
+# for elem in d:
+#     print(elem.upper(), end=",")
+d.pop()
+d.popleft()
+d.append(2)
+d.appendleft(1)
+print(d)
+d.rotate(10)
+print(d)
+d.rotate(-5)
+print(d)
+--- ✄ -------------------------
+Advanced classes
+--
+enumeration class #all items are unique (can't have two APPLE, but can have the same value)
+--
+from enum import Enum, unique, auto
+@unique #decorator to make values unique
+class Fruit(Enum):
+    APPLE = 1
+    BANANA = 2
+    ORANGE = 3
+    TOMATO = 4
+    PEAR = auto()
+
+
+def main():
+    print(Fruit.APPLE)
+    print(type(Fruit.APPLE))
+    print(repr(Fruit.APPLE))
+
+    print(Fruit.APPLE.name, Fruit.APPLE.value)
+    print(Fruit.PEAR.value)
+
+
+    myFruits = {}
+    myFruits[Fruit.BANANA] = "Com Mr. Tally-man"
+    print(myFruits[Fruit.BANANA])
+--- ✄ -------------------------
+Class String Functions
+--
+object.__str__(self) -> str(object), print(object), "{0}".format(object)
+is used for string representation of the object
+--
+object.__repr__(self) -> repr(object)
+the purpose to be able to recreate object by represented data, also is used for debuging
+--
+object.__format__(self, format_spec) -> format(object, format_spec)
+as usual is used default behavior
+--
+object.__bytes__(self) -> bytes(object)
+convert object to the bytes object (to pass date as set of bytes)
+--
+class Person():
+    def __init__(self):
+        self.fname = "Joe"
+        self.lname = "Marini"
+        self.age = 25
+
+    def __repr__(self):
+        return "<Person Class - fname:{0}, lname{1}, age:{2}".format(
+            self.fname, self.lname, self.age
+        )
+
+    def __str__(self):
+        return "Person ({0} {1} is {2})".format(
+            self.fname, self.lname, self.age
+        )
+
+    def __bytes__(self):
+        val = "Person:{0}:{1}:{2}".format(
+            self.fname, self.lname, self.age
+        )
+        return bytes(val.encode('utf-8'))
+
+def main():
+    cls1 = Person()
+    print(repr(cls1))
+    print(str(cls1))
+    print("Formatted: {0}".format(cls1))
+    print(bytes(cls1))
+--- ✄ -------------------------
+Class Attribute Functions
+--
+class myColor():
+    def __init__(self):
+        self.red = 50
+        self.green = 75
+        self.blue = 100
+    def __getattr__(self, attr):
+        if attr == "rgbcolor":
+            return (self.red, self.green, self.blue)
+        elif attr == 'hexcolor':
+            return "#{0:02x}{1:02x}{2:02x}".format(
+                self.red, self.green, self.blue
+            )
+        else:
+            raise AttributeError
+    def __setattr__(self, key, value):
+        if key == "rgbcolor":
+            self.red = value[0]
+            self.green = value[1]
+            self.blue = value[2]
+        else:
+            super().__setattr__(key, value)
+    def __dir__(self): #this allows to hint attributes during the codding
+        return ("red", 'green', 'blue', 'rgbcolor", "hexcolor')
+def main():
+    cls1 = myColor()
+    print(cls1.rrgbcolor)
+    print(cls1.hexcolor)
+    cls1.rgbcolor = (125, 200, 86)
+    print(cls1.rgbcolor)
+    print(cls1.hexcolor)
+    print(dir(cls1)) 
+--- ✄ -------------------------
+Class Numerical Operators
+--
+object.__iadd__(self, other)        self += other
+object.__isub__(self, other)        self -= other
+object.__imul__(self, other)        self += other
+object.__itruediv__(self, other)    self /= other
+object.__ifloordiv__(self, other)   self //= other
+object.__ipow__(self, other)        self **= other
+object.__iand__(self, other)        self &= other
+object.__ior__(self, other)         self |= other
+--
+class Point():
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    def __repr__(self):
+        return "<Point x:{0},y:{1}>".format(self.x, self.y)
+    def __add__(self, other):
+        return Point(self.x + other.x, self.y + other.y)
+    def __sub__(self, other):
+        return Point(self.x - other.x, self.y - other.y)
+    def __iadd__(self, other):
+        self.x += other.x
+        self.y += other.y
+        return self
+def main():
+    p1 = Point(10, 20)
+    p2 = Point(30, 30)
+    print(p1, p2)
+    p3 = p1 + p2
+    print(p3)
+    print(p1 - p2)
+    p1 += p2
+    print(p1)
+--- ✄ -------------------------
+Class Comparison Operators
+--
+Comparison Function 
+object 
+object.__gt__(self,  other)     self > other               
+object.__ge__(self,  other)     self >= other                 
+object.__It__(self,  other)     self < Other                 
+object.__le__(self,  other)     self <= other                 
+object.__eq__(self,  other)     self == other     
+object.__ne__(self,  other)     self != other
+             
+
+

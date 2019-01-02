@@ -1,0 +1,64 @@
+<NotepadPlus>
+    <UserLang name="Work" ext="log txt cmd bat properties cfg md" udlVersion="2.1">
+        <Settings>
+            <Global caseIgnored="yes" allowFoldOfComments="no" foldCompact="no" forcePureLC="0" decimalSeparator="2" />
+            <Prefix Keywords1="yes" Keywords2="yes" Keywords3="no" Keywords4="no" Keywords5="no" Keywords6="yes" Keywords7="no" Keywords8="no" />
+        </Settings>
+        <KeywordLists>
+            <Keywords name="Comments">00# 00&quot;--&quot; 00:: 01 02 03 04</Keywords>
+            <Keywords name="Numbers, prefix1">0xc c v</Keywords>
+            <Keywords name="Numbers, prefix2"></Keywords>
+            <Keywords name="Numbers, extras1"></Keywords>
+            <Keywords name="Numbers, extras2"></Keywords>
+            <Keywords name="Numbers, suffix1"></Keywords>
+            <Keywords name="Numbers, suffix2"></Keywords>
+            <Keywords name="Numbers, range">-  : &quot;::&quot; &quot;-&gt;&quot;</Keywords>
+            <Keywords name="Operators1">: ; , / + * ( ) . &amp; ! { } ? = \ &apos; %</Keywords>
+            <Keywords name="Operators2"></Keywords>
+            <Keywords name="Folders in code1, open"></Keywords>
+            <Keywords name="Folders in code1, middle"></Keywords>
+            <Keywords name="Folders in code1, close"></Keywords>
+            <Keywords name="Folders in code2, open"></Keywords>
+            <Keywords name="Folders in code2, middle"></Keywords>
+            <Keywords name="Folders in code2, close"></Keywords>
+            <Keywords name="Folders in comment, open"></Keywords>
+            <Keywords name="Folders in comment, middle"></Keywords>
+            <Keywords name="Folders in comment, close"></Keywords>
+            <Keywords name="Keywords1">pink $ @ HKEY_LOCAL_MACHINE SOFTWARE HKEY_LOCAL_MACHINE docker -- - &#x2013; end</Keywords>
+            <Keywords name="Keywords2">green done ok successful complete PRD prod true READY &#x2713; &#x2611; Artifactory new</Keywords>
+            <Keywords name="Keywords3">blue nyk | - TeamCity TC FTP TFS azure slack </Keywords>
+            <Keywords name="Keywords4">semired ID TX null DR UAT DB DBs January Jan February Feb March Mar April Apr May June July August Aug September Sept GIT DNS false queue manager October Oct November Nov December Dec TCP exe QA QX Sunday Sun Monday Mon  Tuesday Tues Wednesday Wed Thursday Thurs Friday Fri Saturday Sat Instument STG dev Deployment Plan overflow sqlplus info warn &#x2600; image Ubuntu not deleted ctrl</Keywords>
+            <Keywords name="Keywords5">yellow &#x265E; &#x260F; &#x260E; &#x2709; Python container containers DataDog</Keywords>
+            <Keywords name="Keywords6">red error failed timeout exception Timedout IllegalArgumentException Failure Offline COMException SocketException deadlock SqlException NullPointerException OutOfMemory EOFException &#x2717; &#x2613; SocketTimeoutException ConnectionException CannotGetJdbcConnectionException denied &quot;not found&quot;</Keywords>
+            <Keywords name="Keywords7">violet select from where and IN in out drop Table value net stop create delete start show powershell call Executing set echo exit tail private setup com command ToDo JIRA commit run add checkout status branch get clone merge push init reset</Keywords>
+            <Keywords name="Keywords8">orange Staging TEST setting system config EOD Message WARNING Missed release pkg PKGs &#x2191; invalid ls list GitHub suspended alt old go move make</Keywords>
+            <Keywords name="Delimiters">00 01 02 03[ 04 05] 06&lt; 07 08&gt; 08/&gt; 09&quot; 10 11&quot; 12 13 14 15 16 17 18 19 20 21 22 23</Keywords>
+        </KeywordLists>
+        <Styles>
+            <WordsStyle name="DEFAULT" fgColor="C8C8C8" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="COMMENTS" fgColor="FFAC84" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="31744" />
+            <WordsStyle name="LINE COMMENTS" fgColor="5EAEAE" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="NUMBERS" fgColor="8BC5C5" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS1" fgColor="EFB8D5" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS2" fgColor="80FF80" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS3" fgColor="46C2FF" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS4" fgColor="FF9595" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS5" fgColor="FFFF80" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS6" fgColor="FF0000" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS7" fgColor="BFBFFF" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="KEYWORDS8" fgColor="FFD079" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="OPERATORS" fgColor="EEFE81" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="FOLDER IN CODE1" fgColor="FFFF80" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="FOLDER IN CODE2" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="FOLDER IN COMMENT" fgColor="FF8080" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS1" fgColor="FF8040" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="8192" />
+            <WordsStyle name="DELIMITERS2" fgColor="E9BE98" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="67366912" />
+            <WordsStyle name="DELIMITERS3" fgColor="B0B0D9" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="117701650" />
+            <WordsStyle name="DELIMITERS4" fgColor="FFFF80" bgColor="1E1E1E" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS5" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS6" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS7" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+            <WordsStyle name="DELIMITERS8" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" nesting="0" />
+        </Styles>
+    </UserLang>
+</NotepadPlus>
