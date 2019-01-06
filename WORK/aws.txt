@@ -1,0 +1,203 @@
+AWS presentation
+
+* What is AWS?
+	Amazon Web Services (AWS) is a subsidiary of Amazon.com that provides on-demand cloud computing platforms to individuals, companies and governments, on a paid subscription basis. The technology allows subscribers to have at their disposal a full-fledged virtual cluster of computers, available all the time, through the Internet. AWS's version of virtual computers have most of the attributes of a real computer including hardware (CPU(s) & GPU(s) for processing, local/RAM memory, hard-disk/SSD storage); a choice of operating systems; networking; and pre-loaded application software such as web servers, databases, CRM, etc. Each AWS system also virtualizes its console I/O (keyboard, display, and mouse), allowing AWS subscribers to connect to their AWS system using a modern browser. 
+	
+	Was launched in 2002 as AWS and contained only a few services. In 2003 concept of AWS was reformulated. In 2004 SQS was presented for public usage. In 2006 AWS was relaunched with S3, EC2 and SQS.
+	
+	AWS had $17.46 billion in annual revenue in 2017.
+
+	SQS - simple queue service
+
+* Free tier
+	https://aws.amazon.com/free/
+		- refers to limited use for free AWS resources
+		- dedicated to learn, experiment and get hand-on-experience
+		- almost all AWS services allow Free Tier usage
+		- Free Tier available for 12 months
+		- Available for new customers only
+	Features:
+		EC2 (Elastic Cloud Compute)
+		EBS (Elastic Block Storage)
+		S3 (Simple Storage Service)
+		RDS (Relation Database Service)
+		DynamoDB (NoSQL database service)
+		ELB (Elastic Load Balancing)
+		SNS (Simple Message Service)
+		Lambda (Serverless computing)
+
+* Create account, Navigate AWS console.
+
+* IAM (Identify and Access Management)
+	Create users
+	Security status
+		Users
+		Group
+		IAM Access Policies
+		Roles
+	AWS account is called “root” user.
+	But default it has FULL admin rights and access.
+
+	MFA - Multi-Factor Authentication
+		Virtual MFA Device:
+			Smartphone (Android, iOS)
+		Hardware Key Fob:
+			Can be ordered from AWS
+
+	Best practice to create separate user with Administrator Access.
+	Console login link
+
+
+* VPC (Virtual Private Cloud)
+	VPC and Subnet Basics
+	A virtual private cloud (VPC) is a virtual network dedicated to your AWS account. It is logically isolated from other virtual networks in the AWS Cloud.
+
+	Region - recommended to select closer to you.
+
+	Each region is completely independent. Each Availability Zone is isolated, but the Availability Zones in a region are connected through low-latency links.
+	Availability Zone = AWS Data center
+
+	NACLs (Network Access Lists) - control traffic to the subnet.
+	But default it allows all outbound and denys inbound
+
+
+	CIDR (Classless Inter-Domain Routing)
+
+* S3
+	https://aws.amazon.com/s3/pricing/?nc1=h_ls
+	S3 is primary storage service in AWS
+	Root level of all folders is called "Bucket"
+	All subfolders are called "Folders"
+	All files are called "Objects"
+	Regions
+	How are you charged for using S3
+		- Applied to data at rest in S3
+		- Charged per GB
+		- Price per GB, region ans Storage class
+	Request pricing
+		- PUT 
+		- COPY 
+		- POST
+		- LIST
+		- GET
+		- Lifecycle Transition Request
+		- Data arrival
+		- Data achive
+		- Data restore
+		https://aws.amazon.com/s3/pricing/
+	Bucket naming
+		- More then 3 symbols (up to 64)
+		- contain lowercase letter
+		- Use letters, number of hyphens only
+		- Bucket name should be unique across entire AWS buckets
+	
+	S3 Storage Classes
+	Durability and Availability
+	Standard
+		For frequently accessed data. Stores object data redundantly across multiple geographically separated Availability Zones
+
+	Standard-IA
+		For infrequently accessed data. Stores object data redundantly across multiple geographically separated Availability Zones. Minimum 30-day retention period and minimum 128 KB object size.
+
+	One Zone-IA
+		For infrequently accessed data. Stores object data in only one Availability Zone at a lower price than Standard-IA. Minimum 30-day retention period and minimum 128 KB object size
+
+	Reduced redundancy Storage
+		For frequently accessed data. Stores noncritical, reproducible data at lower levels of redundancy than Standard.
+
+	Permission
+	Account - AWS account - canonical User ID:
+	79a59df900b949e55d96a1e698fbacedfd6e09d98eacf8f8d5218e7cd47ef2be
+	Permissions applied to Bucket and Objects
+	Bucket
+		List
+		Upload/Delete
+		View Permissions
+		Edit Permissions
+	Objects
+		Open/Download
+		View Permissions
+		Edit Permissions
+	Objects can be shared using link for the whole world
+
+	LifeCycle
+	Set of rules that automate migration object storage class based on specific time intervals.
+
+	Object versioning
+
+	Versioning
+	Can be set only on bucket level
+	Previous version became automatically lower redundancy.
+
+* EC2 - Elastic Compute Cloud - just a computer
+	Purchasing options:
+		On demand 
+			- the most expensive purchasing option
+			- the most flexible purchasing option
+			- you are only charged whe the instance is running
+			- you can provision or terminate on any time
+		Reserved (prepaid for some period of time )
+			- significant price discount over using on demand
+			- can select to pay upfront, partial upfront, no upfront
+			- once you buy reserved instances you are own it for reserved period of time and responsible for the entire price
+		Spot
+			- allows the Amazon to cell the unused instances when the price is lower your "bid" 
+			- Spot price based on spot marketplace
+			- charged by the minute
+			- for active bid instance provisioned when she spot price is actual of less your bid
+			- if spot price is bigger the instance is terminated
+	Before doing any major change in instance review of current pricing model should be reviewed to avoid overpaying.
+
+	AMI (Amazon Machine Images) - a preconfigured package required to launch EC2 instance; includes operation system, software packages and other required settings.
+	You can launch as many as you need EC2 instances from one AMI.
+	In the other words, AMI is a template for EC2 instances.
+	AMI Components:
+		Root Volume Template
+			- Operation System
+			- Application Software
+		Launch permissions
+		Block device mapping
+
+	AMI comes in three main categories:
+		Community AMI
+			- Free to use
+			- Generally you can chose only OS
+		AWS market place
+			- Pay to use
+			- Generally cames with packaged with additional, licensed software
+		My AMI
+			- AMI's which where created by yourself.
+
+	Instance type - specific hardware configuration of instance.
+	Based on application and software which are expected be run on the instance.
+	https://aws.amazon.com/ec2/instance-types/
+
+	EBS (can be treated as hard drive)
+	Amazon Elastic Block Store (Amazon EBS) provides block level storage volumes for use with EC2 instances. EBS volumes are highly available and reliable storage volumes that can be attached to any running instance that is in the same Availability Zone. EBS volumes that are attached to an EC2 instance are exposed as storage volumes that persist independently from the life of the instance. With Amazon EBS, you pay only for what you use. For more information about Amazon EBS pricing, see the Projecting Costs section of the Amazon Elastic Block Store page.
+
+	EBS exists independently from the instance.
+
+	Snapshots 
+		- image of the EBS volume. Can be used as a backup or for duplicate
+		- is not active and can't be attached to existing instance
+		- to restore a snapshot you have to create a volume using snapshot as template
+
+	Security group - like an Firewall on the instance 
+	diagram (lesson 30)
+
+	allow/deny traffic 
+	Best practice is to allow only that traffic which is required.
+
+	IP addressing
+	by default all EC2 has private IP address
+	Default VPC and subnets are configured with public IP address.
+	diagram (lesson 31) with EC2 -> Internet
+
+	Creating EC2 instance
+
+
+
+
+
+
+
