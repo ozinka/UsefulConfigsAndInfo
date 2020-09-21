@@ -66,6 +66,7 @@ git config --global alias.br branch				- setup alias for GIT
 git config --global alias.df diff				- setup alias for GIT
 git config --global alias.dfs "diff --staged"	- setup alias for GIT
 git config --global alias.logg "log --graph --decorate --oneline --abbrev-commit --all"	- setup alias for GIT
+git config --global core.autocrlf true			- ignore end of line difference between linux and windows
 
 
 -------------
@@ -164,14 +165,12 @@ git push origin py3_01				- push to GitHub
 git add `git status | grep modified | sed 's/\(.*modified:\s*\)//'`
 	add only modified files to the staging
 
-Aliases
-=======================================================================================
 
 Old:
 PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]\n\[\033[32m\]\u@\h \[\033[35m\]$MSYSTEM \[\033[33m\]\w\[\033[36m\]`__git_ps1`\[\033[0m\]\n$'
 
 New:
-export PS1=':> \[\033]0;$PWD `__git_ps1`\007\]\[\033[33m\]\w\[\033[36m\]`__git_ps1`\[\033[0m\]\n\033[38;5;10m\]$\033[0m\] '
+export PS1=':# \[\033]0;$PWD `__git_ps1`\007\]\[\033[33m\]\w\[\033[36m\]`__git_ps1`\[\033[0m\]\n\033[38;5;10m\]$\033[0m\] '
 			
 			BASH hotkeys
 MOVE --------------------------------------------

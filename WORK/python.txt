@@ -997,33 +997,26 @@ class Employee():
         self.lname = lname
         self.level = level
         self.seniority = yrsService
-
     def __ge__(self, other):
         if (self.level == other.level):
             return self.seniority >= other.seniority
         return self.level >= other.level
-
     def __gt__(self, other):
         if (self.level == other.level):
             return self.seniority > other.seniority
         return self.level > other.level
-
     def __lt__(self, other):
         if (self.level == other.level):
             return self.seniority < other.seniority
         return self.level < other.level
-
     def __le__(self, other):
         if (self.level == other.level):
             return self.seniority <= other.seniority
         return self.level <= other.level
-
     def __eq__(self, other):
         if (self.level == other.level):
             return self.seniority == other.seniority
         return self.level == other.level
-
-
 def main():
     dept =[]
     dept.append(Employee("Tim", "Sim", 5, 9))
@@ -1031,12 +1024,85 @@ def main():
     dept.append(Employee("Jane", "Smith", 6, 6))
     dept.append(Employee("Rebecca", "Robinson", 5, 11))
     dept.append(Employee("Tyler", "Durden", 5, 12))
-
     print(dept[0] > dept[2])
     print(dept[4] < dept[3])
-
     emps = sorted(dept)
     for emp in emps:
         print(emp.fname)         
+--- ✄ -------------------------
+Python Logging
+--
+import logging
 
+extData = {
+    'user':'john@example.com'
+}
+
+def anotherFunction():
+    logging.debug("This is a debuh-level message", extra=extData)
+
+def main():
+    fmtstr = "User:%(user)s %(asctime)s: %(levelname)s: %(funcName)s Line:%(lineno)d %(message)s"
+    datestr = "%m/%d/%Y %I:%M:%S %p"
+    logging.basicConfig(level=logging.DEBUG,
+                        filename='output.log',
+                        filemode="w",
+                        format=fmtstr,
+                        datefmt=datestr)
+    logging.info("This is a info-level log message", extra=extData)
+    logging.warning("This is a warning-level message", extra=extData)
+    anotherFunction()
+
+if __name__ == '__main__':
+    main()
+--- ✄ -------------------------
+Python Comprehensions with Lists
+--
+def main():
+    evens = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
+    odds = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+
+    evenSquared = list(map(lambda e: e ** 2, evens))
+    print(evenSquared)
+
+    evenSquared = list(
+        map(lambda e: e ** 2, filter(lambda e: e > 4 and e < 16, evens)))
+    print(evenSquared)
+
+    evenSquared = [e ** 2 for e in evens]
+    print(evenSquared)
+
+    oddsSquared = [e ** 2 for e in odds if e > 3 and e < 17]
+    print(oddsSquared)
+--
+Comprehensions with Dictionaries
+--
+ctemps = [0, 12, 34, 100]
+
+tempDict = {t: (t*9/5)+32 for t in ctemps if t < 100}
+print(tempDict)
+print(tempDict[12])
+--
+team1 = {"Jones": 24,"Jameson": 18,"Smith": 58,"Burns": 7}
+team2 = {"White": 12,"Macke": 88,"Perce": 4}
+
+newTeam = {k:v for team in (team1, team2) for k,v in team.items()}
+print(newTeam)
+--
+Conprehensions with SETs--
+def main():
+    ctemps = [5, 10, 12, 14, 10, 23, 41, 30, 12, 24, 12, 18, 29]
+
+    ftemps1= [(t*9/5)+32 for t in ctemps]
+    ftemps2 = {(t*9/5)+32 for t in ctemps}
+
+    print(ftemps1)
+    print(ftemps2)
+
+    sTemp = "The quick brown fox jumped over the lazy dog"
+
+    chars = {c.upper() for c in sTemp if not c.isspace()}
+
+    print(chars)
+--- ✄ -------------------------
 
