@@ -1,69 +1,56 @@
-; press Mouse Forward to Maximize window Minimize
-$xbutton2::
+; press Mouse Forward to Maximize/Restore window
+xbutton2::
     MouseGetPos,,, WinUMID
-    If !WinActive("ahk_id" WinUMID)
-    WinActivate, ahk_id %WinUMID%
-
-    WinGet MX, MinMax, A
-    WingetClass, myClass, A
-    except_classes := "Chrome_WidgetWin_1"
-
-    if myClass not in %except_classes%
+    WinGet MX, MinMax, ahk_id %WinUMID%
+    WinGetClass class, ahk_id %WinUMID%
+    If !(class="Shell_TrayWnd"||class="WorkerW")
+    {
         If MX
-            WinRestore A
-        Else WinMaximize A
-
-    ; TrayTip, %myClass%, "hey"
-    ; MsgBox, Hello
+            WinRestore, ahk_id %WinUMID%
+        Else WinMaximize, ahk_id %WinUMID%
+    }
+    ; MsgBox, The active window's class is "%class%".
 Return
 
 ; press Mouse Forward to Minimize window
-$xbutton1::
+xbutton1::
     MouseGetPos,,, WinUMID
-    If !WinActive("ahk_id" WinUMID)
-    WinActivate, ahk_id %WinUMID%
-
-    WingetClass, myClass, A
-    WinGet MX, MinMax, A
-    except_classes := "Chrome_WidgetWin_1"
-
-    if myClass not in %except_classes%
-        WinMinimize A
-
+    WinGet MX, MinMax, WinUMID
+    WinGetClass class, ahk_id %WinUMID%
+    If !(class="Shell_TrayWnd"||class="WorkerW")
+    {
+        WinMinimize, ahk_id %WinUMID%
+    }
 Return
 
-; Press Ctrl+XButton2 to set any currently active window to be always on top
+; Ctrl+XButton2 to set "always on top"
 ^xbutton2::
     MouseGetPos,,, WinUMID
-    If !WinActive("ahk_id" WinUMID)
-    WinActivate, ahk_id %WinUMID%
+    WinGetClass class, ahk_id %WinUMID%
 
-    WinGetTitle, activeWindow, A
+    WinGetTitle, activeWindow, ahk_id %WinUMID%
     if IsWindowAlwaysOnTop(activeWindow) {
         notificationMessage := "The window """ . activeWindow . """ is now always on top."
-        notificationIcon := 16 + 1 ; No notification sound (16) + Info icon (1)
+        notificationIcon := 16 + 1
     }
     else {
         notificationMessage := "The window """ . activeWindow . """ is no longer always on top."
-        notificationIcon := 16 + 2 ; No notification sound (16) + Warning icon (2)
+        notificationIcon := 16 + 2
     }
-    Winset, Alwaysontop, , A
+    Winset, Alwaysontop, , ahk_id %WinUMID%
     TrayTip, Always-on-top, %notificationMessage%, , %notificationIcon%
-    ;Sleep 3000 ; Let it display for 3 seconds.
-    ; HideTrayTip()
 
     IsWindowAlwaysOnTop(windowTitle) {
         WinGet, windowStyle, ExStyle, %windowTitle%
-        isWindowAlwaysOnTop := if (windowStyle & 0x8) ? false : true ; 0x8 is WS_EX_TOPMOST.
+        isWindowAlwaysOnTop := if (windowStyle & 0x8) ? false : true
         return isWindowAlwaysOnTop
     }
+Return
 
-    ; HideTrayTip() {
-    ;     TrayTip  ; Attempt to hide it the normal way.
-    ;     if SubStr(A_OSVersion,1,3) = "10." {
-    ;         Menu Tray, NoIcon
-    ;         Sleep 200  ; It may be necessary to adjust this sleep.
-    ;         Menu Tray, Icon
-    ;     }
-    ; }
+; Ctrl+XButton1 to set Close
+^xbutton1::
+    MouseGetPos,,, WinUMID
+    WinGetClass class, ahk_id %WinUMID%
+    WinClose ahk_id %WinUMID%
+
 Return
