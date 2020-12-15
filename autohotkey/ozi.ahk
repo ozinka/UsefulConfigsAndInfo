@@ -20,6 +20,8 @@ xbutton1::
     If !(class="Shell_TrayWnd"||class="WorkerW")
     {
         WinMinimize, ahk_id %WinUMID%
+        ;WinWaitNotActive, ahk_id %WinUMID%
+        ;WinActivate, A
     }
 Return
 
