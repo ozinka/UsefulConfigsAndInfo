@@ -15,13 +15,16 @@ Return
 ; press Mouse Forward to Minimize window
 xbutton1::
     MouseGetPos,,, WinUMID
-    WinGet MX, MinMax, WinUMID
+    ; WinGet MX, MinMax, WinUMID
     WinGetClass class, ahk_id %WinUMID%
     If !(class="Shell_TrayWnd"||class="WorkerW")
     {
-        WinMinimize, ahk_id %WinUMID%
-        ;WinWaitNotActive, ahk_id %WinUMID%
-        ;WinActivate, A
+        PostMessage, 0x112, 0xF020,,, ahk_id %WinUMID%
+        ; WinMinimize, ahk_id %WinUMID%
+        ; WinWaitNotActive, ahk_id %WinUMID%
+        ; WinActivate, A
+    	; MouseGetPos,,, uid
+    	; WinActivate, ahk_id %uid%
     }
 Return
 
