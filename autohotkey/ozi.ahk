@@ -4,18 +4,27 @@
 ; - Hold Capslock and drag anywhere in a window to move it (not just the title bar).
 ; - Access the following functions when pressing Capslock:
     ;Cursor keys        - h, j, k, l
-    ;Home,End           - N, ;
-    ;Page up,down       - - =
+    ;Page up,down       - i, o
+    ;Home,End           - u, p
+    ;Enter              - Space
     ;Esc                - CapsLock only
-    ;CapsLock           - Space
-; source https://gist.github.com/scottming/5405b12eb2c69a4e0e54
+
+; Mouse (action to window under Mouse cursor)
+; Forward           - Maximize/restore window
+; Backward          - Minimize window
+; Ctrl Forward      - Always on top
+; Ctrl Backward     - Close application
+; Capslokc + Drag windows anywhere with mouse
+
+; sources   https://gist.github.com/scottming/5405b12eb2c69a4e0e54
+;           https://gist.github.com/Danik/5808330
 
 #Persistent
 SetCapsLockState, AlwaysOff
 
 ;====== Mouse =======
 
-; press Mouse Forward to Maximize/Restore window
+; Mouse Forward to Maximize/Restore window
 xbutton2::
     MouseGetPos,,, WinUMID
     WinGet MX, MinMax, ahk_id %WinUMID%
@@ -28,7 +37,7 @@ xbutton2::
     }
 Return
 
-; press Mouse Backward to Minimize window
+; Mouse Backward to Minimize window
 xbutton1::
     MouseGetPos,,, WinUMID
     WinGetClass class, ahk_id %WinUMID%
@@ -52,12 +61,7 @@ Return
     WinClose ahk_id %WinUMID%
 Return
 
-; Alt+Backward to Enter
-!xbutton1::SendInput {Enter}{Alt up}
-
 ; Drag windows anywhere
-; Taken from https://gist.github.com/Danik/5808330
-
 Capslock & LButton::
 CoordMode, Mouse  ; Switch to screen/absolute coordinates.
 MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin
@@ -109,13 +113,6 @@ Capslock & k up::Send {Blind}{Up Up}
 
 Capslock & l::Send {Blind}{Right DownTemp}
 Capslock & l up::Send {Blind}{Right Up}
-
-; Capslock & Space::
-; If GetKeyState("CapsLock", "T") = 1
-;     SetCapsLockState, AlwaysOff
-; Else
-;     SetCapsLockState, AlwaysOn
-; Return
 
 ; Capslock only, Send Escape
 CapsLock::Send, {ESC}
