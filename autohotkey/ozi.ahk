@@ -1,65 +1,3 @@
-; press Mouse Forward to Maximize/Restore window
-xbutton2::
-    MouseGetPos,,, WinUMID
-    WinGet MX, MinMax, ahk_id %WinUMID%
-    WinGetClass class, ahk_id %WinUMID%
-    If !(class="Shell_TrayWnd"||class="WorkerW")
-    {
-        If MX
-            WinRestore, ahk_id %WinUMID%
-        Else WinMaximize, ahk_id %WinUMID%
-    }
-    ; MsgBox, The active window's class is "%class%".
-Return
-
-; press Mouse Forward to Minimize window
-xbutton1::
-    MouseGetPos,,, WinUMID
-    ; WinGet MX, MinMax, WinUMID
-    WinGetClass class, ahk_id %WinUMID%
-    If !(class="Shell_TrayWnd"||class="WorkerW")
-    {
-        PostMessage, 0x112, 0xF020,,, ahk_id %WinUMID%
-    }
-Return
-
-; Ctrl+XButton2 to set "always on top"
-^xbutton2::
-    MouseGetPos,,, WinUMID
-    WinGetClass class, ahk_id %WinUMID%
-
-    WinGetTitle, activeWindow, ahk_id %WinUMID%
-    if IsWindowAlwaysOnTop(activeWindow) {
-        notificationMessage := "The window """ . activeWindow . """ is now always on top."
-        notificationIcon := 16 + 1
-    }
-    else {
-        notificationMessage := "The window """ . activeWindow . """ is no longer always on top."
-        notificationIcon := 16 + 2
-    }
-    Winset, Alwaysontop, , ahk_id %WinUMID%
-    TrayTip, Always-on-top, %notificationMessage%, , %notificationIcon%
-
-    IsWindowAlwaysOnTop(windowTitle) {
-        WinGet, windowStyle, ExStyle, %windowTitle%
-        isWindowAlwaysOnTop := if (windowStyle & 0x8) ? false : true
-        return isWindowAlwaysOnTop
-    }
-Return
-
-; Ctrl+XButton1 to Close
-^xbutton1::
-    MouseGetPos,,, WinUMID
-    WinGetClass class, ahk_id %WinUMID%
-    WinClose ahk_id %WinUMID%
-
-Return
-
-; MButton1 to Enter
-!xbutton1::Send {Enter}
-
-Return
-
 ;===================================================================
 ; Autohotkey Capslock Remapping Script
 ; - Deactivates capslock for normal (accidental) use.
@@ -75,6 +13,90 @@ Return
 #Persistent
 SetCapsLockState, AlwaysOff
 
+;====== Mouse =======
+
+; press Mouse Forward to Maximize/Restore window
+xbutton2::
+    MouseGetPos,,, WinUMID
+    WinGet MX, MinMax, ahk_id %WinUMID%
+    WinGetClass class, ahk_id %WinUMID%
+    If !(class="Shell_TrayWnd"||class="WorkerW")
+    {
+        If MX
+            WinRestore, ahk_id %WinUMID%
+        Else WinMaximize, ahk_id %WinUMID%
+    }
+Return
+
+; press Mouse Backward to Minimize window
+xbutton1::
+    MouseGetPos,,, WinUMID
+    WinGetClass class, ahk_id %WinUMID%
+    If !(class="Shell_TrayWnd"||class="WorkerW")
+    {
+        PostMessage, 0x112, 0xF020,,, ahk_id %WinUMID%
+    }
+Return
+
+; Ctrl+Forward to set "always on top"
+^xbutton2::
+    MouseGetPos,,, WinUMID
+    WinGetClass class, ahk_id %WinUMID%
+    Winset, Alwaysontop, , ahk_id %WinUMID%
+Return
+
+; Ctrl+Backward to Close
+^xbutton1::
+    MouseGetPos,,, WinUMID
+    WinGetClass class, ahk_id %WinUMID%
+    WinClose ahk_id %WinUMID%
+Return
+
+; Alt+Backward to Enter
+!xbutton1::SendInput {Enter}{Alt up}
+
+; Drag windows anywhere
+; Taken from https://gist.github.com/Danik/5808330
+
+Capslock & LButton::
+CoordMode, Mouse  ; Switch to screen/absolute coordinates.
+MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin
+WinGetPos, EWD_OriginalPosX, EWD_OriginalPosY,,, ahk_id %EWD_MouseWin%
+WinGet, EWD_WinState, MinMax, ahk_id %EWD_MouseWin%
+if EWD_WinState = 0  ; Only if the window isn't maximized
+    SetTimer, EWD_WatchMouse, 10 ; Track the mouse as the user drags it.
+return
+
+EWD_WatchMouse:
+GetKeyState, EWD_LButtonState, LButton, P
+if EWD_LButtonState = U  ; Button has been released, so drag is complete.
+{
+    SetTimer, EWD_WatchMouse, off
+    return
+}
+GetKeyState, EWD_EscapeState, Escape, P
+if EWD_EscapeState = D  ; Escape has been pressed, so drag is cancelled.
+{
+    SetTimer, EWD_WatchMouse, off
+    WinMove, ahk_id %EWD_MouseWin%,, %EWD_OriginalPosX%, %EWD_OriginalPosY%
+    return
+}
+; Otherwise, reposition the window to match the change in mouse coordinates
+; caused by the user having dragged the mouse:
+CoordMode, Mouse
+MouseGetPos, EWD_MouseX, EWD_MouseY
+WinGetPos, EWD_WinX, EWD_WinY,,, ahk_id %EWD_MouseWin%
+SetWinDelay, -1   ; Makes the below move faster/smoother.
+WinMove, ahk_id %EWD_MouseWin%,, EWD_WinX + EWD_MouseX - EWD_MouseStartX, EWD_WinY + EWD_MouseY - EWD_MouseStartY
+EWD_MouseStartX := EWD_MouseX  ; Update for the next timer-call to this subroutine.
+EWD_MouseStartY := EWD_MouseY
+return
+
+;====== Keyboard =======
+
+; Capslock + Backspace (Ctrl+Backspace)
+Capslock & BS::SendInput {Blind}{Del Down}
+
 ; Capslock + hjkl (left, down, up, right)
 Capslock & h::Send {Blind}{Left DownTemp}
 Capslock & h up::Send {Blind}{Left Up}
@@ -88,61 +110,53 @@ Capslock & k up::Send {Blind}{Up Up}
 Capslock & l::Send {Blind}{Right DownTemp}
 Capslock & l up::Send {Blind}{Right Up}
 
-; Capslock + n (home, end)
-Capslock & n::SendInput {Blind}{Home Down}
-Capslock & n up::SendInput {Blind}{Home Up}
-
-Capslock & `;::SendInput {Blind}{End Down}
-Capslock & `; up::SendInput {Blind}{End Up}
-
-Capslock & Space::
-If GetKeyState("CapsLock", "T") = 1
-    SetCapsLockState, AlwaysOff
-Else
-    SetCapsLockState, AlwaysOn
-Return
+; Capslock & Space::
+; If GetKeyState("CapsLock", "T") = 1
+;     SetCapsLockState, AlwaysOff
+; Else
+;     SetCapsLockState, AlwaysOn
+; Return
 
 ; Capslock only, Send Escape
 CapsLock::Send, {ESC}
 
-; Cpaslock + -= ,send up,dowm
-Capslock & =::SendInput {Blind}{PgDn Down}
-Capslock & = up::SendInput {Blind}{PgDn Up}
+; Capslock + yuio (home, pgup, pgdown, end)
+Capslock & u::SendInput {Blind}{Home Down}
+Capslock & u up::SendInput {Blind}{Home Up}
 
-Capslock & -::SendInput {Blind}{PgUp Down}
-Capslock & - up::SendInput {Blind}{PgUp Up}
+Capslock & i::SendInput {Blind}{PgUp Down}
+Capslock & i up::SendInput {Blind}{PgUp Up}
 
-; Capslock + b, open the gitbash
-; CapsLock & s::Send +{F10},Send s
+Capslock & o::SendInput {Blind}{PgDn Down}
+Capslock & o up::SendInput {Blind}{PgDn Up}
 
-;\ to |, <+\ to \
-; \::+\
-; Shift & \::Send {\}
-
-; Capslock + w, run worktile
-; CapsLock & w::
-; Run https://worktile.com/project/4dbc6fdb5dfd49079da5c8c811b2cb8d/task
-; return
-
-; ^`::^/
-
-; Capslock + G
-; CapsLock & g::
-; Run C:\Program Files\Google\Chrome\Application\chrome.exe
-; return
+Capslock & p::SendInput {Blind}{End Down}
+Capslock & p up::SendInput {Blind}{End Up}
 
 
+; Capslock + ,./ (undo/redo/redo)
+Capslock & ,::SendInput {Ctrl Down}{z Down}
+Capslock & , up::SendInput {Ctrl Up}{z Up}
+Capslock & .::SendInput {Ctrl Down}{y Down}
+Capslock & . up::SendInput {Ctrl Up}{y Up}
+Capslock & /::SendInput {Ctrl Down}{Shift Down}{z Down}
+Capslock & / up::SendInput {Ctrl Up}{Shift Up}{z Up}
 
-;Caplock & p , Send click
-; Capslock & p::Send +{Click 600, 200}
+; Capslock + asdf (select all, cut-copy-paste)
+Capslock & a::SendInput {Ctrl Down}{a Down}
+Capslock & a up::SendInput {Ctrl Up}{a Up}
 
-;Capslock & q ==> win  down
-; Capslock & q::SendInput #{Down}
+Capslock & s::SendInput {Ctrl Down}{x Down}
+Capslock & s up::SendInput {Ctrl Up}{x Up}
 
-;Capslock & ` ==> win up
-; Capslock & `::SendInput #{up}
+Capslock & d::SendInput {Ctrl Down}{c Down}
+Capslock & d up::SendInput {Ctrl Up}{c Up}
 
-;Capslock & Tab ==> Alt Tab
-; Capslock & Tab::SendInput ^{Tab}
+Capslock & f::SendInput {Ctrl Down}{v Down}
+Capslock & f up::SendInput {Ctrl Up}{v Up}
 
-; ^0::#space))))
+; Make Capslock & Enter equivalent to Control+Enter
+Capslock & Enter::SendInput {Ctrl down}{Enter}{Ctrl up}
+
+; Make Capslock+Space -> Enter
+Capslock & Space::SendInput {Enter Down}
