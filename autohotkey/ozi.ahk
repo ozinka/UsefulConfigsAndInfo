@@ -8,6 +8,7 @@
     ;Home,End           - u, p
     ;Enter              - Space
     ;Esc                - CapsLock only
+    ;Capslock           - Win
 
 ; Mouse (action to window under Mouse cursor)
 ; Forward           - Maximize/restore window
@@ -157,3 +158,11 @@ Capslock & Enter::SendInput {Ctrl down}{Enter}{Ctrl up}
 
 ; Make Capslock+Space -> Enter
 Capslock & Space::SendInput {Enter Down}
+
+; Make Win Key + Capslock work like Capslock (in case it's ever needed)
+Capslock & LWin::
+If GetKeyState("CapsLock", "T") = 1
+    SetCapsLockState, AlwaysOff
+Else
+    SetCapsLockState, AlwaysOn
+Return
