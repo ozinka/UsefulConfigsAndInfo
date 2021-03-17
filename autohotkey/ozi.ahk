@@ -53,7 +53,13 @@ Return
     MouseGetPos,,, WinUMID
     WinGetClass class, ahk_id %WinUMID%
     Winset, Alwaysontop, , ahk_id %WinUMID%
+    WinGet, ExStyle, ExStyle, ahk_id %WinUMID%
+    if (ExStyle & 0x8)  ; 0x8 is WS_EX_TOPMOST.
+        TrayTip, ON, AHK Aloways on-top, 0, 17
+    else
+        TrayTip, OFF, AHK Aloways on-top, 0, 16
 Return
+
 
 ; Ctrl+Backward to Close
 ^xbutton1::
