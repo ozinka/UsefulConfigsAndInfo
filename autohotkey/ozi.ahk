@@ -1,9 +1,9 @@
-;===================================================================
+    ;===================================================================
 ; Autohotkey Capslock Remapping Script
 ; - Deactivates capslock for normal (accidental) use.
 ; - Hold Capslock and drag anywhere in a window to move it (not just the title bar).
 ; - Access the following functions when pressing Capslock:
-    ;Cursor keys        - h, j, k, l
+    ;Cursor keys        - h, j, k, l, w, b
     ;Page up,down       - i, o
     ;Home,End           - u, p
     ;Enter              - Space
@@ -70,30 +70,29 @@ Return
 
 ; Drag windows anywhere
 Capslock & LButton::
-CoordMode, Mouse  ; Switch to screen/absolute coordinates.
+MouseClick
+CoordMode, Mouse
 MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin
 WinGetPos, EWD_OriginalPosX, EWD_OriginalPosY,,, ahk_id %EWD_MouseWin%
 WinGet, EWD_WinState, MinMax, ahk_id %EWD_MouseWin%
-if EWD_WinState = 0  ; Only if the window isn't maximized
-    SetTimer, EWD_WatchMouse, 10 ; Track the mouse as the user drags it.
+if EWD_WinState = 0
+    SetTimer, EWD_WatchMouse, 10
 return
 
 EWD_WatchMouse:
 GetKeyState, EWD_LButtonState, LButton, P
-if EWD_LButtonState = U  ; Button has been released, so drag is complete.
+if EWD_LButtonState = U
 {
     SetTimer, EWD_WatchMouse, off
     return
 }
 GetKeyState, EWD_EscapeState, Escape, P
-if EWD_EscapeState = D  ; Escape has been pressed, so drag is cancelled.
+if EWD_EscapeState = D
 {
     SetTimer, EWD_WatchMouse, off
     WinMove, ahk_id %EWD_MouseWin%,, %EWD_OriginalPosX%, %EWD_OriginalPosY%
     return
 }
-; Otherwise, reposition the window to match the change in mouse coordinates
-; caused by the user having dragged the mouse:
 CoordMode, Mouse
 MouseGetPos, EWD_MouseX, EWD_MouseY
 WinGetPos, EWD_WinX, EWD_WinY,,, ahk_id %EWD_MouseWin%
@@ -103,6 +102,39 @@ EWD_MouseStartX := EWD_MouseX  ; Update for the next timer-call to this subrouti
 EWD_MouseStartY := EWD_MouseY
 return
 
+; Resize windows
+Capslock & RButton::
+MouseClick
+CoordMode, Mouse
+MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin
+WinGetPos, ,, EWD_OriginalX, EWD_OriginalY, ahk_id %EWD_MouseWin%
+WinGet, EWD_WinState, MinMax, ahk_id %EWD_MouseWin%
+if EWD_WinState = 0
+    SetTimer, EWD_WatchMouse1, 10
+return
+
+EWD_WatchMouse1:
+GetKeyState, EWD_RButtonState, RButton, P
+if EWD_RButtonState = U
+{
+    SetTimer, EWD_WatchMouse1, off
+    return
+}
+GetKeyState, EWD_EscapeState, Escape, P
+if EWD_EscapeState = D
+{
+    SetTimer, EWD_WatchMouse1, off
+    WinMove,,,, %EWD_OriginalX%, %EWD_OriginalY%, ahk_id %EWD_MouseWin%
+    return
+}
+CoordMode, Mouse
+MouseGetPos, EWD_MouseX, EWD_MouseY
+WinGetPos, ,, EWD_WinX, EWD_WinY, ahk_id %EWD_MouseWin%
+SetWinDelay, -1
+WinMove, ahk_id %EWD_MouseWin%,,,, EWD_WinX + EWD_MouseX - EWD_MouseStartX, EWD_WinY + EWD_MouseY - EWD_MouseStartY
+EWD_MouseStartX := EWD_MouseX
+EWD_MouseStartY := EWD_MouseY
+return
 ;====== Keyboard =======
 
 ; Capslock + Backspace (Ctrl+Backspace)
@@ -121,8 +153,13 @@ Capslock & k up::Send {Blind}{Up Up}
 Capslock & l::Send {Blind}{Right DownTemp}
 Capslock & l up::Send {Blind}{Right Up}
 
+
+; Capslock + w, b (Ctrl+Right, Ctrl+Left (vim w (word), b(back)))
+CapsLock & w:: Send, ^{Right}
+CapsLock & b:: Send, ^{Left}
+
 ; Capslock only, Send Escape
-CapsLock::Send, {ESC}
+; CapsLock::Send, {ESC}
 
 ; Capslock + yuio (home, pgup, pgdown, end)
 Capslock & u::SendInput {Blind}{Home Down}
@@ -172,3 +209,7 @@ If GetKeyState("CapsLock", "T") = 1
 Else
     SetCapsLockState, AlwaysOn
 Return
+
+; Disable Capslock for any other keys combinations
+CapsLock::return
+CapsLock UP::return
