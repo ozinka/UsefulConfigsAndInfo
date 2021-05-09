@@ -1,4 +1,4 @@
-    ;===================================================================
+;===================================================================
 ; Autohotkey Capslock Remapping Script
 ; - Deactivates capslock for normal (accidental) use.
 ; - Hold Capslock and drag anywhere in a window to move it (not just the title bar).
@@ -68,74 +68,79 @@ Return
     WinClose ahk_id %WinUMID%
 Return
 
-; Drag windows anywhere
+; Drag window anywhere
 Capslock & LButton::
-MouseClick
-CoordMode, Mouse
-MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin
-WinGetPos, EWD_OriginalPosX, EWD_OriginalPosY,,, ahk_id %EWD_MouseWin%
-WinGet, EWD_WinState, MinMax, ahk_id %EWD_MouseWin%
-if EWD_WinState = 0
+    CoordMode, Mouse
+    MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin
+    WinGetPos, EWD_OriginalPosX, EWD_OriginalPosY,,, % wTitle := "ahk_id " EWD_MouseWin
+    mv_mode = mv
     SetTimer, EWD_WatchMouse, 10
 return
 
-EWD_WatchMouse:
-GetKeyState, EWD_LButtonState, LButton, P
-if EWD_LButtonState = U
-{
-    SetTimer, EWD_WatchMouse, off
-    return
-}
-GetKeyState, EWD_EscapeState, Escape, P
-if EWD_EscapeState = D
-{
-    SetTimer, EWD_WatchMouse, off
-    WinMove, ahk_id %EWD_MouseWin%,, %EWD_OriginalPosX%, %EWD_OriginalPosY%
-    return
-}
-CoordMode, Mouse
-MouseGetPos, EWD_MouseX, EWD_MouseY
-WinGetPos, EWD_WinX, EWD_WinY,,, ahk_id %EWD_MouseWin%
-SetWinDelay, -1   ; Makes the below move faster/smoother.
-WinMove, ahk_id %EWD_MouseWin%,, EWD_WinX + EWD_MouseX - EWD_MouseStartX, EWD_WinY + EWD_MouseY - EWD_MouseStartY
-EWD_MouseStartX := EWD_MouseX  ; Update for the next timer-call to this subroutine.
-EWD_MouseStartY := EWD_MouseY
-return
-
-; Resize windows
+; Resize window
 Capslock & RButton::
-MouseClick
-CoordMode, Mouse
-MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin
-WinGetPos, ,, EWD_OriginalX, EWD_OriginalY, ahk_id %EWD_MouseWin%
-WinGet, EWD_WinState, MinMax, ahk_id %EWD_MouseWin%
-if EWD_WinState = 0
-    SetTimer, EWD_WatchMouse1, 10
+    CoordMode, Mouse
+    MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin
+    WinGetPos, ,, EWD_OriginalPosX, EWD_OriginalPosY, % wTitle := "ahk_id " EWD_MouseWin
+    mv_mode = sz
+    SetTimer, EWD_WatchMouse, 10
 return
 
-EWD_WatchMouse1:
-GetKeyState, EWD_RButtonState, RButton, P
-if EWD_RButtonState = U
-{
-    SetTimer, EWD_WatchMouse1, off
-    return
-}
-GetKeyState, EWD_EscapeState, Escape, P
-if EWD_EscapeState = D
-{
-    SetTimer, EWD_WatchMouse1, off
-    WinMove,,,, %EWD_OriginalX%, %EWD_OriginalY%, ahk_id %EWD_MouseWin%
-    return
-}
-CoordMode, Mouse
-MouseGetPos, EWD_MouseX, EWD_MouseY
-WinGetPos, ,, EWD_WinX, EWD_WinY, ahk_id %EWD_MouseWin%
-SetWinDelay, -1
-WinMove, ahk_id %EWD_MouseWin%,,,, EWD_WinX + EWD_MouseX - EWD_MouseStartX, EWD_WinY + EWD_MouseY - EWD_MouseStartY
-EWD_MouseStartX := EWD_MouseX
-EWD_MouseStartY := EWD_MouseY
+; Drag window if LButton+RButton
+#If GetKeyState("LButton", "P")
+RButton::
+    CoordMode, Mouse
+    MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin
+    While GetKeyState("RButton", "P") {
+        WinGetPos, EWD_OriginalPosX, EWD_OriginalPosY,,, % wTitle := "ahk_id " EWD_MouseWin
+        mv_mode = mv
+        SetTimer, EWD_WatchMouse, 10
+        Send {Esc}
+    }
 return
-;====== Keyboard =======
+#If
+
+; Resize window if RButton+LButton
+#If GetKeyState("RButton", "P")
+LButton::
+    CoordMode, Mouse
+    MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin
+    While GetKeyState("LButton", "P") {
+        WinGetPos, ,, EWD_OriginalPosX, EWD_OriginalPosY, % wTitle := "ahk_id " EWD_MouseWin
+        mv_mode = sz
+        SetTimer, EWD_WatchMouse, 10
+        KeyWait, Rbutton ;As soon as RButton is released...
+        SendInput {Esc}  ;... kill the context menu
+    }
+return
+#If
+
+; Function for move and resize windows
+EWD_WatchMouse:
+    CoordMode, Mouse
+    MouseGetPos, EWD_MouseX, EWD_MouseY
+    SetWinDelay, -1   ; Makes the below move faster/smoother.
+    if mv_mode = mv
+    {
+        GetKeyState, EWD_MButtonState, LButton, P
+        WinGetPos, EWD_WinX, EWD_WinY,,, %wTitle%
+        WinMove, %wTitle%,, EWD_WinX + EWD_MouseX - EWD_MouseStartX, EWD_WinY + EWD_MouseY - EWD_MouseStartY
+    }
+    if mv_mode = sz
+    {
+        GetKeyState, EWD_MButtonState, RButton, P
+        WinGetPos, ,, Width, Height, %wTitle%
+        WinMove, %wTitle%,,,, Width + EWD_MouseX - EWD_MouseStartX, Height + EWD_MouseY - EWD_MouseStartY
+    }
+    if EWD_MButtonState = U
+    {
+        SetTimer, EWD_WatchMouse, off
+        return
+    }
+    EWD_MouseStartX := EWD_MouseX
+    EWD_MouseStartY := EWD_MouseY
+    WinActivate %wTitle%
+return
 
 ; Capslock + Backspace (Ctrl+Backspace)
 Capslock & BS::SendInput {Blind}{Del Down}
