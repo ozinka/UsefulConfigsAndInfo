@@ -145,6 +145,9 @@ return
 ; Capslock + Backspace (Ctrl+Backspace)
 Capslock & BS::SendInput {Blind}{Del Down}
 
+; Capslock + G (Ctrl+Backspace)
+Capslock & g::SendInput {Blind}{Del Down}
+
 ; Capslock + hjkl (left, down, up, right)
 Capslock & h::Send {Blind}{Left DownTemp}
 Capslock & h up::Send {Blind}{Left Up}
@@ -160,8 +163,8 @@ Capslock & l up::Send {Blind}{Right Up}
 
 
 ; Capslock + w, b (Ctrl+Right, Ctrl+Left (vim w (word), b(back)))
-CapsLock & w:: Send, ^{Right}
-CapsLock & b:: Send, ^{Left}
+CapsLock & w:: Send, {Blind}^{Right}
+CapsLock & b:: Send, {Blind}^{Left}
 
 ; Capslock only, Send Escape
 ; CapsLock::Send, {ESC}
@@ -188,7 +191,7 @@ Capslock & . up::SendInput {Ctrl Up}{y Up}
 Capslock & /::SendInput {Ctrl Down}{Shift Down}{z Down}
 Capslock & / up::SendInput {Ctrl Up}{Shift Up}{z Up}
 
-; Capslock + asdf (select all, cut-copy-paste)
+; Capslock + asdf (select all, cut-copy-paste, ctrl+home, ctrl+end)
 Capslock & a::SendInput {Ctrl Down}{a Down}
 Capslock & a up::SendInput {Ctrl Up}{a Up}
 
@@ -201,11 +204,23 @@ Capslock & d up::SendInput {Ctrl Up}{c Up}
 Capslock & f::SendInput {Ctrl Down}{v Down}
 Capslock & f up::SendInput {Ctrl Up}{v Up}
 
+Capslock & q::SendInput {Ctrl Down}{Home Down}
+Capslock & q up::SendInput {Ctrl Up}{Home Up}
+
+Capslock & e::SendInput {Ctrl Down}{End Down}
+Capslock & e up::SendInput {Ctrl Up}{End Up}
+
 ; Make Capslock & Enter equivalent to Control+Enter
 Capslock & Enter::SendInput {Ctrl down}{Enter}{Ctrl up}
 
-; Make Capslock+Space -> Enter
-Capslock & Space::SendInput {Enter Down}
+; Make Capslock+Space -> Enter, Capslock+Shit+Space -> RClick
+Capslock & Space::
+If GetKeyState("Shift","p")
+    Send {Click Right}
+else
+    Send SendInput {Enter Down}
+Return
+
 
 ; Make Win Key + Capslock work like Capslock (in case it's ever needed)
 Capslock & LWin::
@@ -214,6 +229,12 @@ If GetKeyState("CapsLock", "T") = 1
 Else
     SetCapsLockState, AlwaysOn
 Return
+
+; Media control
+; play/pause, back, forward
+Capslock & c:: SendInput {Media_Play_Pause}
+Capslock & z:: SendInput {Media_Prev}
+Capslock & x:: SendInput {Media_Next}
 
 ; Disable Capslock for any other keys combinations
 CapsLock::return
