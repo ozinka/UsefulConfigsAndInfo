@@ -218,7 +218,7 @@ Capslock & Space::
 If GetKeyState("Shift","p")
     Send {Click Right}
 else
-    Send SendInput {Enter Down}
+    SendInput {Enter Down}
 Return
 
 
