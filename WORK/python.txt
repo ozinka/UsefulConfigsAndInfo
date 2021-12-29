@@ -1106,3 +1106,40 @@ def main():
     print(chars)
 --- ✄ -------------------------
 
+====================================== Python Advanced (on PluralSight) ===========================
+https://app.pluralsight.com/library/courses/advanced-python/table-of-contents
+---------------------------------------------------------------------------------------------------
+The while ... else Construct
+
+while condition:
+    execute_condition_is_true()
+else:
+    execute_condition_id_false()
+--- ✄ -------------------------
+for ... else
+--
+ls = [2, 15, 2, 36, 7]
+res = 0
+for i in ls:
+    if i % 12 == 0:
+        res = i
+        break
+else:
+    ls.append(12)
+    res = 12
+
+print(res)
+--- ✄ -------------------------
+switch in Python
+--- ✄ -------------------------
+dispatch on type = overloads for functions
+--- ✄ -------------------------
+Bitwise operators
+--
+&  - And
+|  - Or
+^  - Exclusive-Or (XOR)
+~  - Not
+<< - Left shift
+>> - Right shift
+--
