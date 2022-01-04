@@ -145,7 +145,7 @@ return
 ; Capslock + Backspace (Ctrl+Backspace)
 Capslock & BS::SendInput {Blind}{Del Down}
 
-; Capslock + G (Ctrl+Backspace)
+; Capslock + g (Ctrl+Backspace)
 Capslock & g::SendInput {Blind}{Del Down}
 
 ; Capslock + hjkl (left, down, up, right)
@@ -191,7 +191,7 @@ Capslock & . up::SendInput {Ctrl Up}{y Up}
 Capslock & /::SendInput {Ctrl Down}{Shift Down}{z Down}
 Capslock & / up::SendInput {Ctrl Up}{Shift Up}{z Up}
 
-; Capslock + asdf (select all, cut-copy-paste, ctrl+home, ctrl+end)
+; Capslock + asdfeq (select all, cut-copy-paste, ctrl+home, ctrl+end)
 Capslock & a::SendInput {Ctrl Down}{a Down}
 Capslock & a up::SendInput {Ctrl Up}{a Up}
 
