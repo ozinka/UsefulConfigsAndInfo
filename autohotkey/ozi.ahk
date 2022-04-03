@@ -36,6 +36,7 @@ xbutton2::
             WinRestore, ahk_id %WinUMID%
         Else WinMaximize, ahk_id %WinUMID%
     }
+    Sleep 100
 Return
 
 ; Mouse Backward to Minimize window
@@ -58,6 +59,7 @@ Return
         TrayTip, ON, AHK Always on-top, 0, 17
     else
         TrayTip, OFF, AHK Always on-top, 0, 16
+    Sleep 100
 Return
 
 
