@@ -20,6 +20,17 @@
 ; sources   https://gist.github.com/scottming/5405b12eb2c69a4e0e54
 ;           https://gist.github.com/Danik/5808330
 
+SetTimer, Check, 1000
+Return
+
+Check:
+IfWinActive, Overwatch
+  Suspend, On
+Else
+  Suspend, Off
+Return
+
+
 #Persistent
 SetCapsLockState, AlwaysOff
 
