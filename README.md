@@ -2,3 +2,5 @@
 
 [WORK]
 regexp.txt - contains usefull regular expressions.
+
+[linux]
