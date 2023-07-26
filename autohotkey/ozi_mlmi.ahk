@@ -1,21 +1,10 @@
 ;===================================================================
-; Autohotkey Capslock Remapping Script
-; - Deactivates capslock for normal (accidental) use.
-; - Hold Capslock and drag anywhere in a window to move it (not just the title bar).
-; - Access the following functions when pressing Capslock:
-    ;Cursor keys        - h, j, k, l, w, b
-    ;Page up,down       - i, o
-    ;Home,End           - u, p
-    ;Enter              - Space
-    ;Esc                - CapsLock only
-    ;Capslock           - Win
-
 ; Mouse (action to window under Mouse cursor)
 ; Forward           - Maximize/restore window
 ; Backward          - Minimize window
 ; Ctrl Forward      - Always on top
 ; Ctrl Backward     - Close application
-; Capslokc + Drag windows anywhere with mouse
+; Win + Drag windows anywhere with mouse
 
 ; sources   https://gist.github.com/scottming/5405b12eb2c69a4e0e54
 ;           https://gist.github.com/Danik/5808330
@@ -72,7 +61,7 @@ Return
 Return
 
 ; Drag window anywhere
-Capslock & LButton::
+LWin & LButton::
     CoordMode, Mouse
     MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin
     WinGetPos, EWD_OriginalPosX, EWD_OriginalPosY,,, % wTitle := "ahk_id " EWD_MouseWin
@@ -81,7 +70,7 @@ Capslock & LButton::
 return
 
 ; Resize window
-Capslock & RButton::
+LWin & RButton::
     CoordMode, Mouse
     MouseGetPos, EWD_MouseStartX, EWD_MouseStartY, EWD_MouseWin
     WinGetPos, ,, EWD_OriginalPosX, EWD_OriginalPosY, % wTitle := "ahk_id " EWD_MouseWin
@@ -144,108 +133,3 @@ EWD_WatchMouse:
     EWD_MouseStartY := EWD_MouseY
     WinActivate %wTitle%
 return
-
-; Capslock + Backspace (Ctrl+Backspace)
-Capslock & BS::SendInput {Blind}{Del Down}
-
-; Capslock + g (Ctrl+Backspace)
-Capslock & g::SendInput {Blind}{Del Down}
-
-; Capslock + hjkl (left, down, up, right)
-Capslock & h::Send {Blind}{Left DownTemp}
-Capslock & h up::Send {Blind}{Left Up}
-
-Capslock & j::Send {Blind}{Down DownTemp}
-Capslock & j up::Send {Blind}{Down Up}
-
-Capslock & k::Send {Blind}{Up DownTemp}
-Capslock & k up::Send {Blind}{Up Up}
-
-Capslock & l::Send {Blind}{Right DownTemp}
-Capslock & l up::Send {Blind}{Right Up}
-
-
-; Capslock + w, b (Ctrl+Right, Ctrl+Left (vim w (word), b(back)))
-CapsLock & w:: Send, {Blind}^{Right}
-CapsLock & b:: Send, {Blind}^{Left}
-
-; Capslock only, Send Escape
-; CapsLock::Send, {ESC}
-
-; Capslock + yuio (home, pgup, pgdown, end)
-Capslock & u::SendInput {Blind}{Home Down}
-Capslock & u up::SendInput {Blind}{Home Up}
-
-Capslock & i::SendInput {Blind}{PgUp Down}
-Capslock & i up::SendInput {Blind}{PgUp Up}
-
-Capslock & o::SendInput {Blind}{PgDn Down}
-Capslock & o up::SendInput {Blind}{PgDn Up}
-
-Capslock & p::SendInput {Blind}{End Down}
-Capslock & p up::SendInput {Blind}{End Up}
-
-
-; Capslock + ,./ (undo/redo/redo)
-Capslock & ,::SendInput {Ctrl Down}{z Down}
-Capslock & , up::SendInput {Ctrl Up}{z Up}
-Capslock & .::SendInput {Ctrl Down}{y Down}
-Capslock & . up::SendInput {Ctrl Up}{y Up}
-Capslock & /::SendInput {Ctrl Down}{Shift Down}{z Down}
-Capslock & / up::SendInput {Ctrl Up}{Shift Up}{z Up}
-
-; Capslock + asdfeq (select all, cut-copy-paste, ctrl+home, ctrl+end)
-Capslock & a::SendInput {Ctrl Down}{a Down}
-Capslock & a up::SendInput {Ctrl Up}{a Up}
-
-Capslock & s::SendInput {Ctrl Down}{x Down}
-Capslock & s up::SendInput {Ctrl Up}{x Up}
-
-Capslock & d::SendInput {Ctrl Down}{c Down}
-Capslock & d up::SendInput {Ctrl Up}{c Up}
-
-Capslock & f::SendInput {Ctrl Down}{v Down}
-Capslock & f up::SendInput {Ctrl Up}{v Up}
-
-Capslock & q::SendInput {Ctrl Down}{Home Down}
-Capslock & q up::SendInput {Ctrl Up}{Home Up}
-
-Capslock & e::SendInput {Ctrl Down}{End Down}
-Capslock & e up::SendInput {Ctrl Up}{End Up}
-
-; Virtual Desktop
-Capslock & 7::SendInput {Ctrl Down}{LWin Down}{Right Down}
-Capslock & 7 up::SendInput {Ctrl Up}{LWin Up}{Right Up}
-
-Capslock & 8::SendInput {Ctrl Down}{LWin Down}{Left Down}
-Capslock & 8 up::SendInput {Ctrl Up}{LWin Up}{Left Up}
-
-; Make Capslock & Enter equivalent to Control+Enter
-Capslock & Enter::SendInput {Ctrl down}{Enter}{Ctrl up}
-
-; Make Capslock+Space -> Enter, Capslock+Shit+Space -> RClick
-Capslock & Space::
-If GetKeyState("Shift","p")
-    Send {Click Right}
-else
-    SendInput {Enter Down}
-Return
-
-
-; Make Win Key + Capslock work like Capslock (in case it's ever needed)
-Capslock & LWin::
-If GetKeyState("CapsLock", "T") = 1
-    SetCapsLockState, AlwaysOff
-Else
-    SetCapsLockState, AlwaysOn
-Return
-
-; Media control
-; play/pause, back, forward
-Capslock & c:: SendInput {Media_Play_Pause}
-Capslock & z:: SendInput {Media_Prev}
-Capslock & x:: SendInput {Media_Next}
-
-; Disable Capslock for any other keys combinations
-CapsLock::return
-CapsLock UP::return
