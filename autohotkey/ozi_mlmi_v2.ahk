@@ -1,5 +1,18 @@
-; Persistent
+Persistent
 #Requires AutoHotkey v2.0
+
+; SetTimer(() => CheckActiveWindow(), 100)  ; Check every 100 ms
+; return
+
+SetTimer CheckActiveWindow, 1000
+
+CheckActiveWindow() {
+    if WinActive("ahk_exe overwatch.exe") {
+        Suspend(True)  ; Suspend the script if Overwatch is active
+    } else {
+        Suspend(False)  ; Resume the script if Overwatch is not active
+    }
+}
 
 ;====== Mouse =======
 
@@ -46,9 +59,6 @@ xbutton1:: {
     MouseGetPos(, , &WinUMID)
     WinClose("ahk_id " WinUMID)
 }
-
-
-#Requires AutoHotkey v2.0
 
 ; Global variables
 global EWD_MouseStartX := 0
