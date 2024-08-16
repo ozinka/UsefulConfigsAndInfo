@@ -1,9 +1,6 @@
 Persistent
 #Requires AutoHotkey v2.0
 
-; SetTimer(() => CheckActiveWindow(), 100)  ; Check every 100 ms
-; return
-
 SetTimer CheckActiveWindow, 1000
 
 CheckActiveWindow() {
