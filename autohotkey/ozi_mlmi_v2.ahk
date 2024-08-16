@@ -38,7 +38,8 @@ xbutton1:: {
     }
 }
 
-; Ctrl+Forward to set "always on top"
+; "Ctrl+Forward", "Shift+Ctrl+Alt+=" to set "always on top"
+F18::
 ^XButton2:: {
     MouseGetPos(, , &WinUMID)
     ProcessName := WinGetProcessName("ahk_id " WinUMID)
