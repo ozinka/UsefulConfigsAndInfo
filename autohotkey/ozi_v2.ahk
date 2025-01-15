@@ -23,7 +23,8 @@
 Persistent
 #Requires AutoHotkey v2.0
 
-SetCapsLockState "Off"
+; Prevent CapsLock from changing its state
+SetCapsLockState "AlwaysOff"
 
 SetTimer CheckActiveWindow, 1000
 
@@ -35,8 +36,21 @@ CheckActiveWindow() {
     }
 }
 
-;====== Mouse =======
 
+;======= ChatGPT =======
+#HotIf WinActive("ahk_exe chrome.exe")   ; Limit hotkeys to Chrome only
+; Grammar check template
+::!gr::Check the grammar of this sentence, provide explanation for each correction using bullets list:
+
+; Translation template English -> Ukrainian
+::!tr-eu::Translate this from English to Ukrainian:
+
+; Translation template Uktrainian -> English
+::!tr-ue::Translate this from Ukrainianian to English:
+#HotIf  
+; End restriction (hotkeys will work in all windows after this point)
+
+;====== Mouse =======
 ; Mouse Forward to Maximize/Restore window
 xbutton2:: {
     MouseGetPos(, , &WinUMID)
@@ -258,3 +272,9 @@ Capslock & x::SendInput("{Media_Next}")
 ; Disable Capslock for any other key combinations
 CapsLock::Return
 CapsLock UP::Return
+
+
+; Block all other Capslock combinations
+#HotIf GetKeyState("CapsLock", "P")
+*::return
+#HotIf
