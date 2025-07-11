@@ -1,23 +1,26 @@
 [
-  { "keys": ["shift+enter"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Add Line.sublime-macro"} },
-  {"keys": ["ctrl+shift+8"], "command": "insert_snippet", "args": {"contents": "• "}},
-  { "keys": ["alt+enter"], "command": "insert_snippet", "args":{"name": "Packages/work/new_section.sublime-snippet"} },
-  { "keys": ["alt+shift+enter"], "command": "insert_snippet", "args":{"name": "Packages/work/new_section2.sublime-snippet"} },
   {
-  "keys": ["enter"],
-  "command": "auto_bullet_list",
-  "context": [
-   { "key": "overlay_visible", "operator": "equal", "operand": false },
-   { "key": "panel_has_focus", "operator": "equal", "operand": false },
-   { "key": "auto_complete_visible", "operator": "equal", "operand": false }
+    "keys": ["alt+enter"],
+    "command": "insert_cutline_and_newline"
+  },
+  {
+    "keys": ["shift+alt+enter"],
+    "command": "insert_cutline_below"
+  },
+  {
+    "keys": ["ctrl+shift+8"], 
+    "command": "insert_snippet", "args": {"contents": "• "}},
+  {
+    "keys": ["enter"],
+    "command": "auto_bullet_list",
+    "context": [
+     { "key": "overlay_visible", "operator": "equal", "operand": false },
+     { "key": "panel_has_focus", "operator": "equal", "operand": false },
+     { "key": "auto_complete_visible", "operator": "equal", "operand": false }
+   ]},
+    {"keys": ["super+n"],
+      "command": "new_file",
+      "args": {
+      "syntax": "Packages/work/Work.sublime-syntax"}
+    }
   ]
-},
-{ "keys": ["shift+enter"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Add Line.sublime-macro"} },
-  {"keys": ["ctrl+shift+8"], "command": "insert_snippet", "args": {"contents": "• "}},
-  {
-    "keys": ["super+n"],
-    "command": "new_file",
-    "args": {
-        "syntax": "Packages/work/Work.sublime-syntax"},
-    },
-]

@@ -1,0 +1,18 @@
+// Documentation at https://www.sublimetext.com/docs/color_schemes.html
+{
+    "variables":
+    {
+    },
+    "globals":
+    {
+    },
+    "rules":
+    [
+        {
+          "scope": "comment.line.double-dash.customgrayitalic",
+          "foreground": "#888888",
+          "font_style": "italic",
+          "font_face": "Fira Code Retina"
+        }
+    ]
+}
